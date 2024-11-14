@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");// to get the input to float
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput); // to actually move the character
-        playerRb.velocity = new Vector3 (horizontalInput * speed , playerRb.velocity.y, playerRb.velocity.z); // movespeed like translate
+        playerRb.velocity = new Vector3 (horizontalInput * speed , playerRb.velocity.y, playerRb.velocity.z); //lemon
     }
 
     void Jump()
