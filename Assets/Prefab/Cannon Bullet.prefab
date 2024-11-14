@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5079262865439762784}
   - component: {fileID: 3081001632928145620}
   - component: {fileID: 7211383846788156205}
+  - component: {fileID: 27148345837260099}
   - component: {fileID: 3075774033213923295}
   m_Layer: 0
   m_Name: Cannon Bullet
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3951969208347156804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.09, y: -0.47, z: 0.0828}
+  m_LocalPosition: {x: -0.09, y: -0.47, z: 0}
   m_LocalScale: {x: 0.4698, y: 0.4698, z: 0.4698}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -106,6 +107,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &27148345837260099
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951969208347156804}
+  serializedVersion: 4
+  m_Mass: 8
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 108
+  m_CollisionDetection: 0
 --- !u!114 &3075774033213923295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,3 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  cannon: {fileID: 0}

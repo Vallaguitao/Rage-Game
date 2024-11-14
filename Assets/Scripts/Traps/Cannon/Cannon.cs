@@ -14,13 +14,15 @@ public class Cannon : MonoBehaviour
     [SerializeField] private GameObject cannonBulletPrefab;
 
     [Header("Game Objects")]
-    [SerializeField] private FakeGroundTrigger fakeGroundTrigger;
+    [SerializeField] private FakeGroundTrigger cannonMoveTrigger;
     [SerializeField] private GameObject nextPosition;
+
+    public SpriteRenderer canonRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
-        //InvokeRepeating("FireCanon", 2f, delayPerBullet);
+        canonRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -29,10 +31,16 @@ public class Cannon : MonoBehaviour
 
         Attack();
 
-        if(fakeGroundTrigger.IsTriggered)
+        if(cannonMoveTrigger.IsTriggered)
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPosition.transform.position, speed * Time.deltaTime);
             delayPerBullet = 0.5f;
+            cannonMoveTrigger.gameObject.SetActive(false);
+
+            if (!canonRenderer.isVisible && transform.position == nextPosition.transform.position)
+            {
+                canonRenderer.flipX = true;
+            }
         }
     }
 
