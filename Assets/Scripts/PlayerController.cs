@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
         Movement();
         LimitMovement();
         Jump();
+        PlayerFalled();
     }
 
     void LimitMovement()
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");// to get the input to float
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput); // to actually move the character
-        playerRb.velocity = new Vector3 (horizontalInput * speed , playerRb.velocity.y, playerRb.velocity.z); //lemon
+        playerRb.velocity = new Vector3(horizontalInput * speed, playerRb.velocity.y, playerRb.velocity.z); //lemon
     }
 
     void Jump()
@@ -64,6 +65,14 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+        }
+    }
+
+    void PlayerFalled()
+    {
+        if (transform.position.y <= -10)
+        {
+            Destroy(gameObject);
         }
     }
 }
