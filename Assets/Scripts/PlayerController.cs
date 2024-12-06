@@ -13,10 +13,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float gravityModifier; // Modifier to control gravity strength
 
-    [SerializeField] private Rigidbody playerRb;
+    [SerializeField] private Rigidbody2D playerRb;
     private void Start()
     {
-        playerRb = GetComponent<Rigidbody>(); // get the component
+        playerRb = GetComponent<Rigidbody2D>(); // get the component
         Physics.gravity *= gravityModifier;
     }
 
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.x < -xRange)
         {
-            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+            transform.position = new Vector3(-xRange, transform.position.y);
         }
     }
 
@@ -47,19 +47,20 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");// to get the input to float
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput); // to actually move the character
-        playerRb.velocity = new Vector3 (horizontalInput * speed , playerRb.velocity.y, playerRb.velocity.z); //lemon
+        playerRb.velocity = new Vector2 (horizontalInput * speed , playerRb.velocity.y); //lemon
     }
 
     void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y + jumpForce);
             isOnGround = false;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
