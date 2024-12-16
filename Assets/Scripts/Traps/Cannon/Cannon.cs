@@ -12,7 +12,6 @@ public class Cannon : MonoBehaviour
     [Header("Cannon")]
     [SerializeField] private float speed;
     [SerializeField] private GameObject cannonBulletPrefab;
-    [SerializeField] private float bulletOffest = -1f;
 
     [Header("Game Objects")]
     [SerializeField] private FakeGroundTrigger cannonMoveTrigger;
@@ -31,14 +30,23 @@ public class Cannon : MonoBehaviour
     {
 
         Attack();
-        MoveCannon();
-        
+
+        if(cannonMoveTrigger.IsTriggered)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, nextPosition.transform.position, speed * Time.deltaTime);
+            delayPerBullet = 0.5f;
+            cannonMoveTrigger.gameObject.SetActive(false);
+
+            if (!canonRenderer.isVisible && transform.position == nextPosition.transform.position)
+            {
+                canonRenderer.flipX = true;
+            }
+        }
     }
 
     private void FireCanon()
     {
-        Vector2 positionWithOffset = new Vector2(transform.position.x + bulletOffest, transform.position.y);
-        Instantiate(cannonBulletPrefab, positionWithOffset, transform.rotation);
+        Instantiate(cannonBulletPrefab, transform.position, transform.rotation);
     }
 
     protected virtual void Attack()
@@ -55,20 +63,5 @@ public class Cannon : MonoBehaviour
             time = 0;
         }
 
-    }
-
-    private void MoveCannon()
-    {
-        if (cannonMoveTrigger.IsTriggered)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, nextPosition.transform.position, speed * Time.deltaTime);
-            delayPerBullet = 0.5f;
-            cannonMoveTrigger.gameObject.SetActive(false);
-
-            if (!canonRenderer.isVisible && transform.position == nextPosition.transform.position)
-            {
-                canonRenderer.flipX = true;
-            }
-        }
     }
 }

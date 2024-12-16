@@ -21,11 +21,12 @@ public class FakeGroundTrigger : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             isTriggered = true;
         }
+
     }
 }
