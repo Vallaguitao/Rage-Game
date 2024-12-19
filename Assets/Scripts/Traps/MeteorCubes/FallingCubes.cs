@@ -23,6 +23,7 @@ public class FallingCubes : MonoBehaviour
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip hitSound; //temporary
 
+    [SerializeField] Vector3 startingPosition;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -76,6 +77,15 @@ public class FallingCubes : MonoBehaviour
             gameManagerScript.LoseALife();
             audioManager.PlaySFX(hitSound);
             Destroy(gameObject);
+
+            StartCoroutine("PlayerRespawn");
         }
+    }
+
+    IEnumerator PlayerRespawn()
+    {
+        player.transform.position = startingPosition;
+        yield return new WaitForSeconds(1f);
+        player.SetActive(true);
     }
 }
