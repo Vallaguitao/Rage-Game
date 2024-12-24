@@ -10,6 +10,8 @@ public class SpawnCubes : MonoBehaviour
 
     private AudioManager audioManager;
     public AudioClip sound;
+    public SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class SpawnCubes : MonoBehaviour
 
     private void SpawnMeteors()
     {
-        Instantiate(meteors, gameObject.transform);
+        Instantiate(meteors, gameObject.transform);       
     }
 
     private void PlaySound()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 public class Cannon : MonoBehaviour
@@ -11,35 +12,71 @@ public class Cannon : MonoBehaviour
 
     [Header("Cannon")]
     [SerializeField] private float speed;
-    [SerializeField] private GameObject cannonBulletPrefab;
     [SerializeField] private float bulletOffest = -1f;
 
     [Header("Game Objects")]
-    [SerializeField] private FakeGroundTrigger cannonMoveTrigger;
     [SerializeField] private GameObject nextPosition;
 
+    [Header("References")]
     public SpriteRenderer canonRenderer;
+    public Transform player;
 
-    // hello
-    // Start is called before the first frame update
+    [Header("Object Pooling")]
+    public static Cannon SharedInstance;
+    public List<GameObject> pooledObjects;
+    public GameObject objectToPool;
+    public int amountToPool;
+
+    [Header("RayCast")]
+    [SerializeField] protected Ray2D enemyRay;
+    [SerializeField] protected RaycastHit2D[] colliderHit = new RaycastHit2D[1];
+    [SerializeField] protected ContactFilter2D contactFilter2D;
+    [SerializeField] protected int numberOfHits;
+    [SerializeField] protected float raycastDistance = 20f;
+
+    [SerializeField] protected RaycastHit2D[] colliderHit2 = new RaycastHit2D[1];
+    [SerializeField] protected int numberOfHits2;
+    [SerializeField] protected float raycastDistance2 = 5f;
+
+    private void Awake()
+    {
+        SharedInstance = this;
+    }
     void Start()
     {
         canonRenderer = GetComponent<SpriteRenderer>();
+        player = GameObject.Find("Player").GetComponent<Transform>();
+
+        ObjectPooling();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        Attack();
-        MoveCannon();
         
+        MoveCannon();
+
+        numberOfHits = RaycastFunction();
+
+        if (numberOfHits > 0)
+        {
+            Attack();
+        }
+
     }
 
     private void FireCanon()
     {
         Vector2 positionWithOffset = new Vector2(transform.position.x + bulletOffest, transform.position.y);
-        Instantiate(cannonBulletPrefab, positionWithOffset, transform.rotation);
+        //Instantiate(cannonBulletPrefab, positionWithOffset, transform.rotation);
+
+        GameObject bullet = Cannon.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = positionWithOffset;
+            bullet.SetActive(true);
+        }
     }
 
     protected virtual void Attack()
@@ -60,16 +97,63 @@ public class Cannon : MonoBehaviour
 
     private void MoveCannon()
     {
-        if (cannonMoveTrigger.IsTriggered)
+
+        int numberOfHit = RaycastFunction2();
+
+        if (numberOfHit > 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPosition.transform.position, speed * Time.deltaTime);
-            delayPerBullet = 0.5f;
-            cannonMoveTrigger.gameObject.SetActive(false);
+            delayPerBullet = 1f;
+        }
 
-            if (!canonRenderer.isVisible && transform.position == nextPosition.transform.position)
+        if (!canonRenderer.isVisible && transform.position == nextPosition.transform.position && 
+            player.transform.position.x > transform.position.x)
+        {
+            canonRenderer.flipX = true;
+            bulletOffest *= -1;
+        }
+    }
+
+    private void ObjectPooling()
+    {
+        pooledObjects = new List<GameObject>();
+        GameObject cannonBullet;
+
+        for (int counter = 0; counter < amountToPool; counter++)
+        {
+            cannonBullet = Instantiate(objectToPool);
+            cannonBullet.SetActive(false);
+            pooledObjects.Add(cannonBullet);
+        }
+    }
+
+    public GameObject GetPooledObject()
+    {
+        for (int counter = 0; counter < amountToPool; counter++)
+        {
+            if (!pooledObjects[counter].activeInHierarchy)
             {
-                canonRenderer.flipX = true;
+                return pooledObjects[counter];
             }
         }
+        return null;
+    }
+
+    private int RaycastFunction()
+    {
+        Vector2 direction = (canonRenderer.flipX == true) ? Vector2.right : Vector2.left;
+
+        int numberOfDetectedPlayer = Physics2D.Raycast(transform.position, direction, contactFilter2D, colliderHit, raycastDistance);
+    
+        return numberOfDetectedPlayer;
+    }
+
+    private int RaycastFunction2()
+    {
+        Vector2 direction2 = (canonRenderer.flipX == true) ? Vector2.right : Vector2.left;
+
+        int numberOfDetectedPlayer2 = Physics2D.Raycast(transform.position, direction2, contactFilter2D, colliderHit2, raycastDistance2);
+
+        return numberOfDetectedPlayer2;
     }
 }

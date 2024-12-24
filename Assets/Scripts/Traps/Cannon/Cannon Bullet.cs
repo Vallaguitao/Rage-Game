@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class CannonBullet : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private Cannon cannon;
-    [SerializeField] private Rigidbody bulletRigidbody;
+    [SerializeField] private SpriteRenderer cannonRenderer;
+    [SerializeField] private SpriteRenderer bulletRenderer;
+    [SerializeField] private Rigidbody2D bulletRigidbody;
+    [SerializeField] private int direction;
 
-    // Start is called before the first frame update
+    bool test;
+
     void Start()
     {
-        cannon = GameObject.Find("Cannon").GetComponent<Cannon>();
-        bulletRigidbody = GetComponent<Rigidbody>();
+        cannonRenderer = GameObject.Find("Cannon").GetComponent<SpriteRenderer>();
+        bulletRigidbody = GetComponent<Rigidbody2D>();
+        bulletRenderer = GetComponent<SpriteRenderer>();
+
+        direction = (cannonRenderer.flipX) ? 5 : -5;
+
+        print("Cannon render" + cannonRenderer.flipX);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-        transform.Translate(Vector2.left * speed * Time.deltaTime); //will move right when canon is flipped
-        
+
+        bulletRigidbody.velocity = new Vector2(direction, bulletRigidbody.velocity.y);
 
         if (transform.position.x < -13)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
