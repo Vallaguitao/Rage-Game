@@ -12,6 +12,7 @@ public class FallChecker : MonoBehaviour
     private AudioManager audioManager;
     [SerializeField] AudioClip fallSound;
 
+    [SerializeField] protected Vector3 boxSize = new Vector3(3f, 3f, 3f);
     // Start is called before the first frame update
     void Start()
     {
@@ -44,4 +45,12 @@ public class FallChecker : MonoBehaviour
         yield return new WaitForSeconds(1f);
         player.SetActive(true);
     }
+
+    void OnDrawGizmos()
+    {
+        // Draw a semitransparent red cube at the transforms position
+        Gizmos.color = new Color(0, 1, 0, 1f);
+        Gizmos.DrawCube(transform.position, boxSize);
+    }
+
 }

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public enum CoinStatus
+{
+    Real,
+    Fake
+}
+
 public class Coins : MonoBehaviour
 {
     private GameManager gameManager;
     private AudioManager audioManager;
     public AudioClip getSound;
+
+    public CoinStatus coinStatus;
 
     // Start is called before the first frame update
     void Start()

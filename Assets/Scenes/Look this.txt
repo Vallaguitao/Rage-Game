@@ -1,0 +1,11 @@
+Overall:
+1.) No Coin Audio yet
+
+
+Stage 1:
+1.) Meteors trajectory not right and audio
+2.) Tile map
+3.) Player can jump in air 
+	Steps:
+		1.) Go to the fake ground (don't do anything else)
+		2.) While falling, press space

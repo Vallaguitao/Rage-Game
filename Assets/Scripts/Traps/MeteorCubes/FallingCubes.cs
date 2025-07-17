@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class FallingCubes : MonoBehaviour
 {
+
+    //transform.InverseTransformPoint(player.transform.position = to get if player is left or right of the sprite
+
     [Header("Cube Details")]
     [SerializeField] private float pushForce;
+    [SerializeField] private float downwardPushForce = -10f;
+    [SerializeField] private float rotationValue;
     [SerializeField] private GameObject cube;
     [SerializeField] private Rigidbody2D cubeRb;
 
@@ -18,7 +23,9 @@ public class FallingCubes : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject player;
+    [SerializeField] private Transform flowerParent;
     [SerializeField] private GameManager gameManagerScript;
+    
 
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip hitSound; //temporary
@@ -26,7 +33,12 @@ public class FallingCubes : MonoBehaviour
     [SerializeField] Vector3 startingPosition;
     void Start()
     {
+
+        //gameObject.transform.position = transform.TransformPoint(startingPosition);
+
         player = GameObject.FindGameObjectWithTag("Player");
+        flowerParent = gameObject.transform.parent.gameObject.transform.parent.GetComponent<Transform>();
+
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         audioManager = GameObject.Find("Audio").GetComponent<AudioManager>();
 
@@ -44,15 +56,22 @@ public class FallingCubes : MonoBehaviour
     {
         Destroy(gameObject, destroyOnSeconds);
     }
-    void StartPush()
+
+    //push the meteor to the position of the player with -2.5 - 2.5 (formerly -5 - 5) margin of error
+    //mistake for the second plant, meteor does not go to the left side
+    void StartPush(float playerDistance)
     {
-        float cubeThrowXDirection = player.transform.position.x + Random.Range(-1.5f, 1.5f);
-        cubeRb.AddForce(new Vector2(cubeThrowXDirection, -10) * pushForce, ForceMode2D.Impulse);
+        float randomNumber = Random.Range(-2.5f, 2.5f);
+        float cubeThrowXDirection = playerDistance + randomNumber;
+
+        cubeRb.AddForce(new Vector2(cubeThrowXDirection, downwardPushForce) * pushForce, ForceMode2D.Impulse);
     }
 
+    //tossing the meteor in air
     void GoUp()
     {
         cubeRb.AddForce(new Vector2(-0, cubeThrowHeight) * pushForce, ForceMode2D.Impulse);
+        transform.Rotate(Vector3.forward * 180);
     }
 
     /*
@@ -64,10 +83,28 @@ public class FallingCubes : MonoBehaviour
     }
     */
 
+    //When meteor reach the apex at the top
     IEnumerator UpApex()
     {
         yield return new WaitForSeconds(secondsWaitBeforePush);
-        StartPush();
+
+        float playerDistanceFromTheFlower = flowerParent.transform.InverseTransformPoint(player.transform.position).x;
+
+        //sprite rotation if left or right
+        if (playerDistanceFromTheFlower < 0)
+        {
+            transform.Rotate(Vector3.forward * rotationValue); //delta.deltatime removed
+        }
+        else if(playerDistanceFromTheFlower > 0)
+        {
+            transform.Rotate(Vector3.forward * -rotationValue);
+        }
+        else
+        {
+            transform.Rotate(Vector3.forward * 0);
+        }
+
+        StartPush(playerDistanceFromTheFlower);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -79,6 +116,10 @@ public class FallingCubes : MonoBehaviour
             Destroy(gameObject);
 
             StartCoroutine("PlayerRespawn");
+        }
+        else if(collision.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
         }
     }
 

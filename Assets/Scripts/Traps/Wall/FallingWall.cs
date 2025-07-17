@@ -7,6 +7,7 @@ public class FallingWall : MonoBehaviour
 
     private Animator animator;
     [SerializeField] FallingTrigger trigger;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -17,11 +18,19 @@ public class FallingWall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (trigger.isTriggered)
+        
+        if (trigger.IsTriggered)
         {
             animator.SetBool("PlayerPass", true);
+            StartCoroutine(DestroyTheObjectBecauseICantFixTheBug());
         }
+
     }
 
-    
+    IEnumerator DestroyTheObjectBecauseICantFixTheBug()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(trigger.gameObject);
+        Destroy(gameObject);
+    }
 }

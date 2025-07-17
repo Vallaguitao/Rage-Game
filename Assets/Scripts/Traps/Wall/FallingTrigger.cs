@@ -5,7 +5,12 @@ using UnityEngine;
 public class FallingTrigger : MonoBehaviour
 {
 
-    public bool isTriggered;
+    [SerializeField] protected bool isTriggered;
+    public bool fallOnce = false;
+    [SerializeField] public bool IsTriggered { get { return isTriggered; } set { isTriggered = value; } }
+
+    //just random values
+    [SerializeField] protected Vector3 boxSize = new Vector3(3f, 3f, 3f);
 
     // Start is called before the first frame update
     void Start()
@@ -26,4 +31,13 @@ public class FallingTrigger : MonoBehaviour
             isTriggered = true;
         }
     }
+
+    void OnDrawGizmos()
+    {
+        // Draw a semitransparent red cube at the transforms position
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        //Gizmos.DrawCube(transform.position, boxSize);
+    }
+
+    
 }
