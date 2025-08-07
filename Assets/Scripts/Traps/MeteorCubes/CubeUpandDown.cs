@@ -33,7 +33,7 @@ public class CubeUpandDown : TrapsCommonality
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            base.PlayerDied();
+            base.TrapsPlayerDied();
         }
         //else if (collision.gameObject.CompareTag("Ground"))
         else

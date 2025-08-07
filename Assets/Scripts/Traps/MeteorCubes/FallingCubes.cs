@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingCubes : MonoBehaviour
+public class FallingCubes : TrapsCommonality
 {
 
     //transform.InverseTransformPoint(player.transform.position = to get if player is left or right of the sprite
@@ -18,52 +18,36 @@ public class FallingCubes : MonoBehaviour
     [SerializeField] private float cubeThrowHeight = 7f;
     [SerializeField] private float secondsWaitBeforePush = 1.5f;
 
-    [Header("Cube Destruction")]
-    [SerializeField] private float destroyOnSeconds = 3f;
-
     [Header("References")]
-    [SerializeField] private GameObject player;
     [SerializeField] private Transform flowerParent;
-    [SerializeField] private GameManager gameManagerScript;
-    
-
-    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip hitSound; //temporary
 
-    [SerializeField] Vector3 startingPosition;
 
     //Workaround for when paused
     [SerializeField] Vector3 velocityStorage;
     [SerializeField] Vector3 positionStorage;
     [SerializeField] float timeBeforePush = 0;
     [SerializeField] bool isStored;
-    void Start()
+
+    protected override void Start()
     {
+        base.Start();
 
-        //gameObject.transform.position = transform.TransformPoint(startingPosition);
         isStored = false;
-        player = GameObject.FindGameObjectWithTag("Player");
-        flowerParent = gameObject.transform.parent.gameObject.transform.parent.GetComponent<Transform>();
-
-        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-        audioManager = GameObject.Find("Audio").GetComponent<AudioManager>();
-
+        isDestructible = true;
         cubeRb = GetComponent<Rigidbody2D>();
 
+        flowerParent = gameObject.transform.parent.gameObject.transform.parent.GetComponent<Transform>();
+        
         GoUp();
         
-        //StartCoroutine(UpApex());
-        
-        //StartCoroutine(LatePush());
     }
 
-    // Update is called once per frame
     void Update()
     {
 
         UpApex();
 
-        // [Pause] not working properly as of now, ITS NOW WORKING
         if (GameManager.gameManagerScript.isPaused)
         {
             if(!isStored)
@@ -74,7 +58,6 @@ public class FallingCubes : MonoBehaviour
             }
             
             cubeRb.velocity = Vector3.zero;
-            //cubeRb.transform.position = positionStorage;
             cubeRb.Sleep();
         }
         else
@@ -82,7 +65,6 @@ public class FallingCubes : MonoBehaviour
             if(velocityStorage != Vector3.zero)
             {
                 cubeRb.velocity = velocityStorage;
-                //cubeRb.position = positionStorage;
                 velocityStorage = Vector3.zero;
                 positionStorage = Vector3.zero;
                 isStored = false;
@@ -92,7 +74,6 @@ public class FallingCubes : MonoBehaviour
     }
 
     //push the meteor to the position of the player with -2.5 - 2.5 (formerly -5 - 5) margin of error
-    //mistake for the second plant, meteor does not go to the left side
     void StartPush(float playerDistance)
     {
         if (!GameManager.gameManagerScript.isPaused)
@@ -152,26 +133,16 @@ public class FallingCubes : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            gameManagerScript.LoseALife();
+            base.OnCollisionEnter2D(collision);
             audioManager.PlaySFX(hitSound);
-            Destroy(gameObject);
-
-            StartCoroutine("PlayerRespawn");
         }
         else if(collision.gameObject.CompareTag("Ground"))
         {
             Destroy(gameObject);
         }
-    }
-
-    IEnumerator PlayerRespawn()
-    {
-        player.transform.position = startingPosition;
-        yield return new WaitForSeconds(1f);
-        player.SetActive(true);
     }
 }

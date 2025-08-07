@@ -10,7 +10,6 @@ public class Spikes : TrapsCommonality
     public float yPosition;
 
 
-    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
@@ -21,7 +20,6 @@ public class Spikes : TrapsCommonality
 
     }
 
-    // Update is called once per frame
     protected void Update()
     {
         transform.position = new Vector3(transform.position.x, animCurve.Evaluate(Time.time % animCurve.length) + yPosition , transform.position.z);
@@ -34,7 +32,7 @@ public class Spikes : TrapsCommonality
     {
         if(collision.CompareTag("Player"))
         {
-            base.PlayerDied();
+            base.TrapsPlayerDied();
         }
     }
 }

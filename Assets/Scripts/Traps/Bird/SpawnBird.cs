@@ -71,7 +71,7 @@ public class SpawnBird : MonoBehaviour
             else
             {
                 birdie = Instantiate(bird, RandomPosition(), transform.rotation);
-                bird.transform.parent = transform;
+                birdie.transform.parent = transform;
             }
         }
     }

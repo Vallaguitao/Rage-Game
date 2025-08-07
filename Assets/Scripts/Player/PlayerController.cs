@@ -30,14 +30,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip jumpSound; //temporary
-    [SerializeField] private CanvasGroup pausedMenu;
 
     //event managers
     [SerializeField] private UnityEvent onJump;
-    [SerializeField] private UnityEvent onPause;
-    [SerializeField] private UnityEvent onDePause;
 
-    [SerializeField] private EventSystem eventSystem1;
+    //[SerializeField] private EventSystem eventSystem1;
 
     public float HorizontalInput { get { return horizontalInput; } private set {  } }
 
@@ -47,7 +44,7 @@ public class PlayerController : MonoBehaviour
         Physics.gravity *= gravityModifier;
 
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>();
-        eventSystem1 = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+        //eventSystem1 = GameObject.Find("EventSystem").GetComponent<EventSystem>();
 
         playerRenderer = GetComponent<SpriteRenderer>();
 
@@ -148,9 +145,20 @@ public class PlayerController : MonoBehaviour
         //playerRb.constraints = RigidbodyConstraints2D.FreezePosition;
     }
 
+    public void OnPause()
+    {
+        StopMoving();
+        playerRb.Sleep();
+    }
+
+    public void OnDePause()
+    {
+        playerRb.WakeUp();
+    }
+
     #endregion Movement
 
-    #region CameraControl / Pause / Restart
+    #region CameraControl / Pause 
 
     private void ChangeCameraDistance()
     {
@@ -173,50 +181,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
 
-            if (pausedMenu != null)
+            if (GameManager.gameManagerScript.PausedMenu != null)
             {
 
                 if (!GameManager.gameManagerScript.isPaused)
                 {
-                    onPause.Invoke();
+                    GameManager.gameManagerScript.OnPause.Invoke();
+                    //StopMoving();
+                    //playerRb.Sleep();
+                    //onPause.Invoke();
                 }
                 else
                 {
-                    onDePause.Invoke();
+                    GameManager.gameManagerScript.OnDePause.Invoke();
+                    //playerRb.WakeUp();
+                    //onDePause.Invoke();
                 }
 
 
             }
         }
-    }
-
-    public void Pause()
-    {
-        GameManager.gameManagerScript.Pause();
-        
-    }
-
-    public void UnselectButton()
-    {
-
-        eventSystem1.SetSelectedGameObject(null);
-
-    }
-
-    public void RestartStage()
-    {
-
-        SceneManager.LoadScene(GameManager.gameManagerScript.CurrentStageIndex);
-
-    }
-
-    public void ExitGame()
-    {
-        #if UNITY_EDITOR
-                EditorApplication.ExitPlaymode();
-        #else
-                Application.Quit(); // 
-        #endif
     }
 
     #endregion
