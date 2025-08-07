@@ -33,14 +33,19 @@ public class FlowerRaycast : MonoBehaviour
     {
         int playerDetected = DetectPlayer();
 
-        if(playerDetected > 0)
+        if(!GameManager.gameManagerScript.isPaused)
         {
-            SpawnMeteors();
+            if (playerDetected > 0)
+            {
+                SpawnMeteors();
+            }
+            else
+            {
+                return;
+            }
         }
-        else
-        {
-            return;
-        }
+
+        
     }
 
     protected virtual void SpawnMeteors()

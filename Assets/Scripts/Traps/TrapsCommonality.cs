@@ -7,6 +7,7 @@ public class TrapsCommonality : MonoBehaviour
 
     [Header("References")]
     [SerializeField] protected GameObject player;
+    [SerializeField] protected SpriteRenderer playerRenderer;
     [SerializeField] protected GameManager gameManagerScript;
 
     [SerializeField] protected AudioManager audioManager;
@@ -18,7 +19,8 @@ public class TrapsCommonality : MonoBehaviour
     protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerRenderer = player.GetComponent<SpriteRenderer>();
+        gameManagerScript = GameManager.gameManagerScript;
         audioManager = GameObject.Find("Audio").GetComponent<AudioManager>();
     }
 
@@ -36,21 +38,24 @@ public class TrapsCommonality : MonoBehaviour
     {
         player.transform.position = gameManagerScript.StartingPosition;
         yield return new WaitForSeconds(1f);
-        player.SetActive(true);
+        //player.SetActive(true);
+        playerRenderer.enabled = true;
     }
 
-    protected void PlayerDied()
+    protected virtual void PlayerDied()
     {
         if (isDestructible)
         {
             Destroy(gameObject);
         }
 
+        playerRenderer.enabled = false;
         gameManagerScript.LoseALife();
 
 
         StartCoroutine("PlayerRespawn");
 
+        playerRenderer.enabled = true;
         //put an invinsibility period
     }
 }

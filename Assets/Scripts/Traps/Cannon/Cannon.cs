@@ -15,14 +15,15 @@ public class Cannon : MonoBehaviour
     [SerializeField] private float bulletOffest = -1f;
 
     [Header("Game Objects")]
-    [SerializeField] private GameObject nextPosition;
+    //[SerializeField] private GameObject nextPosition;
 
     [Header("References")]
     public SpriteRenderer canonRenderer;
     public Transform player;
+    Vector2 positionWithOffset;
 
     [Header("Object Pooling")]
-    public static Cannon SharedInstance;
+    public Cannon sharedInstance; //static removed
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
     public int amountToPool;
@@ -40,7 +41,7 @@ public class Cannon : MonoBehaviour
 
     private void Awake()
     {
-        SharedInstance = this;
+        sharedInstance = this;
     }
     void Start()
     {
@@ -68,10 +69,18 @@ public class Cannon : MonoBehaviour
 
     private void FireCanon()
     {
-        Vector2 positionWithOffset = new Vector2(transform.position.x + bulletOffest, transform.position.y);
+        if (canonRenderer.flipX)
+        {
+            positionWithOffset = new Vector2(transform.position.x - bulletOffest, transform.position.y);
+        }
+        else
+        {
+            positionWithOffset = new Vector2(transform.position.x + bulletOffest, transform.position.y);
+        }
+        
         //Instantiate(cannonBulletPrefab, positionWithOffset, transform.rotation);
 
-        GameObject bullet = Cannon.SharedInstance.GetPooledObject();
+        GameObject bullet = sharedInstance.GetPooledObject(); //formerly Cannon.SharedInstance
         if (bullet != null)
         {
             bullet.transform.position = positionWithOffset;
@@ -97,7 +106,7 @@ public class Cannon : MonoBehaviour
 
     private void MoveCannon()
     {
-
+        /*
         int numberOfHit = RaycastFunction2();
 
         if (numberOfHit > 0)
@@ -112,6 +121,7 @@ public class Cannon : MonoBehaviour
             canonRenderer.flipX = true;
             bulletOffest *= -1;
         }
+        */
     }
 
     private void ObjectPooling()
@@ -123,6 +133,7 @@ public class Cannon : MonoBehaviour
         {
             cannonBullet = Instantiate(objectToPool);
             cannonBullet.SetActive(false);
+            cannonBullet.transform.SetParent(this.transform);
             pooledObjects.Add(cannonBullet);
         }
     }
@@ -155,5 +166,20 @@ public class Cannon : MonoBehaviour
         int numberOfDetectedPlayer2 = Physics2D.Raycast(transform.position, direction2, contactFilter2D, colliderHit2, raycastDistance2);
 
         return numberOfDetectedPlayer2;
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+
+        if(canonRenderer.flipX == true)
+        {
+            Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + raycastDistance, transform.position.y, transform.position.z));
+        }
+        else
+        {
+            Gizmos.DrawLine(transform.position, new Vector3(transform.position.x - raycastDistance, transform.position.y, transform.position.z));
+        }
+
+
     }
 }

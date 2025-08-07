@@ -31,11 +31,17 @@ public class FallingCubes : MonoBehaviour
     [SerializeField] private AudioClip hitSound; //temporary
 
     [SerializeField] Vector3 startingPosition;
+
+    //Workaround for when paused
+    [SerializeField] Vector3 velocityStorage;
+    [SerializeField] Vector3 positionStorage;
+    [SerializeField] float timeBeforePush = 0;
+    [SerializeField] bool isStored;
     void Start()
     {
 
         //gameObject.transform.position = transform.TransformPoint(startingPosition);
-
+        isStored = false;
         player = GameObject.FindGameObjectWithTag("Player");
         flowerParent = gameObject.transform.parent.gameObject.transform.parent.GetComponent<Transform>();
 
@@ -45,8 +51,8 @@ public class FallingCubes : MonoBehaviour
         cubeRb = GetComponent<Rigidbody2D>();
 
         GoUp();
-
-        StartCoroutine(UpApex());
+        
+        //StartCoroutine(UpApex());
         
         //StartCoroutine(LatePush());
     }
@@ -54,57 +60,96 @@ public class FallingCubes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Destroy(gameObject, destroyOnSeconds);
+
+        UpApex();
+
+        // [Pause] not working properly as of now, ITS NOW WORKING
+        if (GameManager.gameManagerScript.isPaused)
+        {
+            if(!isStored)
+            {
+                velocityStorage = cubeRb.velocity;
+                positionStorage = cubeRb.position;
+                isStored = true;
+            }
+            
+            cubeRb.velocity = Vector3.zero;
+            //cubeRb.transform.position = positionStorage;
+            cubeRb.Sleep();
+        }
+        else
+        {
+            if(velocityStorage != Vector3.zero)
+            {
+                cubeRb.velocity = velocityStorage;
+                //cubeRb.position = positionStorage;
+                velocityStorage = Vector3.zero;
+                positionStorage = Vector3.zero;
+                isStored = false;
+            }
+            cubeRb.WakeUp();
+        }
     }
 
     //push the meteor to the position of the player with -2.5 - 2.5 (formerly -5 - 5) margin of error
     //mistake for the second plant, meteor does not go to the left side
     void StartPush(float playerDistance)
     {
-        float randomNumber = Random.Range(-2.5f, 2.5f);
-        float cubeThrowXDirection = playerDistance + randomNumber;
+        if (!GameManager.gameManagerScript.isPaused)
+        {
+            float randomNumber = Random.Range(-2.5f, 2.5f);
+            float cubeThrowXDirection = playerDistance + randomNumber;
 
-        cubeRb.AddForce(new Vector2(cubeThrowXDirection, downwardPushForce) * pushForce, ForceMode2D.Impulse);
+            cubeRb.AddForce(new Vector2(cubeThrowXDirection, downwardPushForce) * pushForce, ForceMode2D.Impulse);
+        }
+        
     }
 
     //tossing the meteor in air
     void GoUp()
     {
-        cubeRb.AddForce(new Vector2(-0, cubeThrowHeight) * pushForce, ForceMode2D.Impulse);
-        transform.Rotate(Vector3.forward * 180);
+        if(!GameManager.gameManagerScript.isPaused)
+        {
+            cubeRb.AddForce(new Vector2(-0, cubeThrowHeight) * pushForce, ForceMode2D.Impulse);
+            transform.Rotate(Vector3.forward * 180);
+        }
+        
     }
-
-    /*
-    IEnumerator LatePush()
-    {
-        yield return new WaitForSeconds(2f);
-        pushForce = 5f;
-        cubeRb.AddForce(new Vector2(8, -1) * pushForce, ForceMode2D.Impulse);
-    }
-    */
 
     //When meteor reach the apex at the top
-    IEnumerator UpApex()
+    //IEnumerator UpApex()
+    private void UpApex()
     {
-        yield return new WaitForSeconds(secondsWaitBeforePush);
-
-        float playerDistanceFromTheFlower = flowerParent.transform.InverseTransformPoint(player.transform.position).x;
-
-        //sprite rotation if left or right
-        if (playerDistanceFromTheFlower < 0)
+        if (!GameManager.gameManagerScript.isPaused)
         {
-            transform.Rotate(Vector3.forward * rotationValue); //delta.deltatime removed
-        }
-        else if(playerDistanceFromTheFlower > 0)
-        {
-            transform.Rotate(Vector3.forward * -rotationValue);
-        }
-        else
-        {
-            transform.Rotate(Vector3.forward * 0);
-        }
+            //yield return new WaitForSeconds(secondsWaitBeforePush);
 
-        StartPush(playerDistanceFromTheFlower);
+            //working around
+            timeBeforePush += Time.deltaTime;
+
+            if(timeBeforePush >= secondsWaitBeforePush)
+            {
+                float playerDistanceFromTheFlower = flowerParent.transform.InverseTransformPoint(player.transform.position).x;
+
+                //sprite rotation if left or right
+                if (playerDistanceFromTheFlower < 0)
+                {
+                    transform.Rotate(Vector3.forward * rotationValue); //delta.deltatime removed
+                }
+                else if (playerDistanceFromTheFlower > 0)
+                {
+                    transform.Rotate(Vector3.forward * -rotationValue);
+                }
+                else
+                {
+                    transform.Rotate(Vector3.forward * 0);
+                }
+
+                StartPush(playerDistanceFromTheFlower);
+                timeBeforePush = 0;
+            }
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -9,6 +9,7 @@ public class MountainGreenRedLight : TrapsCommonality
     [SerializeField] private bool eyesOpen = true; //True: Green Light, False: Red Light
 
     [SerializeField] private PlayerController playerInput;
+    [SerializeField] private Animator eyesAnim;
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -18,6 +19,10 @@ public class MountainGreenRedLight : TrapsCommonality
         playerInput = player.GetComponent<PlayerController>();
 
         InvokeRepeating("ChangeEyeStatus", duration, duration);
+
+        eyesAnim = GetComponent<Animator>();
+
+        eyesAnim.SetBool("IsOpenEyes", true);
     }
 
     // Update is called once per frame
@@ -29,13 +34,14 @@ public class MountainGreenRedLight : TrapsCommonality
             {
                 base.PlayerDied();
             }
-            
+
         }
     }
 
     private void ChangeEyeStatus()
     {
         eyesOpen = !eyesOpen;
+        eyesAnim.SetBool("IsOpenEyes", eyesOpen);
         print(eyesOpen);
     }
 }

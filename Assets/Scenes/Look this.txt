@@ -9,3 +9,6 @@ Stage 1:
 	Steps:
 		1.) Go to the fake ground (don't do anything else)
 		2.) While falling, press space
+
+
+Moving Platform has a fault in implementation but is manageable
