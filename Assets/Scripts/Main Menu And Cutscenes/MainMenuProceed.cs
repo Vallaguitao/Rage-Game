@@ -26,7 +26,7 @@ public class MainMenuProceed : MonoBehaviour
 
     public void InMaineMenu()
     {
-        SceneManager.LoadScene("Tutorial Stage");
+        SceneManager.LoadScene("Main Menu");
     }
 
 }

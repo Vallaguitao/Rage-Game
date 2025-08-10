@@ -16,5 +16,16 @@ public class ToDo : MonoBehaviour
     /// 
     /// Stage 2
     /// 
+    /// 
+    /// Stage 6
+    /// 1.) Moving Stage, avoid the gas moving to the right by parkouring
+    /// 
+    /// Cutscene Before Stage 7
+    /// MC sees the kidnapper and he confronts them
+    /// Kidnapper has a gun
+    /// 
+    /// Stage 7
+    /// 1.) Boss fight
+    /// 
     ///</Summary>
 }

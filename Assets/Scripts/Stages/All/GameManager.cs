@@ -49,36 +49,58 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnPause { get { return onPause; } private set { } }
     public UnityEvent OnDePause { get { return onDePause; } private set { } }
 
+    [SerializeField] private string currentActiveScene;
+
     private void Awake()
     {
         gameManagerScript = this;
         isPaused = false;
-
         //Player Information
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerControllerScript = player.GetComponent<PlayerController>();
-        playerRenderer = player.GetComponent<SpriteRenderer>();
-        audioManager = GameObject.Find("Audio").GetComponent<AudioManager>();
+
+        currentActiveScene = SceneManager.GetActiveScene().name;
+
+        //temp (because still no persistence)
+        if ((currentActiveScene == "Main Menu") || (currentActiveScene == "Credits") || (currentActiveScene == "Start Menu"))
+        {
+            return;
+        }
+        else
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerControllerScript = player.GetComponent<PlayerController>();
+            playerRenderer = player.GetComponent<SpriteRenderer>();
+            audioManager = GameObject.Find("Audio").GetComponent<AudioManager>();
+        }
+        
     }
 
     void Start()
     {
-        //Player Current Points
-        currentPoints = 0;
-        scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
-        scoreText.SetText($"{currentPoints}");
+
+        if ((currentActiveScene == "Main Menu") || (currentActiveScene == "Credits") || (currentActiveScene == "Start Menu"))
+        {
+            return;
+        }
+        else
+        {
+            //Player Current Points
+            currentPoints = 0;
+            scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
+            scoreText.SetText($"{currentPoints}");
 
 
-        //Player Live Text
-        playerCurrentLives = playerStartingLives;
-        playerCurrentLivesText = GameObject.Find("Lives").GetComponent<TextMeshProUGUI>();
-        playerCurrentLivesText.SetText($"X{playerCurrentLives}");
+            //Player Live Text
+            playerCurrentLives = playerStartingLives;
+            playerCurrentLivesText = GameObject.Find("Lives").GetComponent<TextMeshProUGUI>();
+            playerCurrentLivesText.SetText($"X{playerCurrentLives}");
 
-        //Load Stage
-        currentStageIndex = SceneManager.GetActiveScene().buildIndex;
+            //Load Stage
+            currentStageIndex = SceneManager.GetActiveScene().buildIndex;
 
-        onPause.AddListener(playerControllerScript.OnPause);
-        onDePause.AddListener(playerControllerScript.OnDePause);
+            onPause.AddListener(playerControllerScript.OnPause);
+            onDePause.AddListener(playerControllerScript.OnDePause);
+        }
+        
 
     }
 
@@ -119,10 +141,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine("PlayerRespawn");
 
         playerRenderer.enabled = true;
+
         //put an invinsibility period
     }
 
-    #region Buttons Control
+    #region Pause Buttons Control
 
     public void PlayerPause()
     {
@@ -162,5 +185,7 @@ public class GameManager : MonoBehaviour
         #endif
     }
 
-#endregion
+    #endregion
+
+    
 }
