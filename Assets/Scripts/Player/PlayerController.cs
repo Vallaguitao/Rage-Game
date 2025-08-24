@@ -10,7 +10,12 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
+    [Header("Script References")]
+    [SerializeField] private PlayerInputHandler playerInputHandlerScript;
+    [SerializeField] private PlayerPowerUp playerPowerUpScript;
+
     //Movement
+    [Header("Movement")]
     [SerializeField] private float horizontalInput; // input
     [SerializeField] private float speed; //base speed
     [SerializeField] private float xRange; // character border limit
@@ -20,18 +25,22 @@ public class PlayerController : MonoBehaviour
 
     public float Speed { get { return speed; } set { speed = value; } }
 
+    [Header("Player Components")]
     [SerializeField] private Rigidbody2D playerRb;
     [SerializeField] private SpriteRenderer playerRenderer;
 
     //camera control
+    [Header("Camera Control")]
     [SerializeField] private CinemachineVirtualCamera playerCamera;
     [SerializeField] private float cameraNear = 4;
     [SerializeField] private float cameraFar = 11.63f;
 
+    [Header("Audio")]
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip jumpSound; //temporary
 
     //event managers
+    [Header("Event Manager")]
     [SerializeField] private UnityEvent onJump;
 
     //[SerializeField] private EventSystem eventSystem1;
@@ -53,20 +62,28 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!GameManager.gameManagerScript.isPaused)
+
+        horizontalInput = playerInputHandlerScript.MoveInput.x;
+
+        if (!GameManager.gameManagerScript.isPaused)
         {
-            Jump();
-            ChangeCameraDistance();
+            //Jump();
+            //ChangeCameraDistance();
+            
+            playerInputHandlerScript.jumpInput.performed += context => Jump();
+            playerInputHandlerScript.CameraChangeInput.performed += context => ChangeCameraDistance(); ;
+            playerInputHandlerScript.PowerUpInput.performed += context => playerPowerUpScript.BarrierPowerUp();
+
         }
 
-        EscapePress();
+        //PauseGame();
+        playerInputHandlerScript.PauseInput.performed += context => PauseGame();
     }
 
     private void FixedUpdate()
     {
         if (!GameManager.gameManagerScript.isPaused)
         {
-            //update this someday to the new input system
             Movement();
 
             //When space is used to press [Resume Button], player also jumps
@@ -79,16 +96,14 @@ public class PlayerController : MonoBehaviour
     #region Movement
     void Movement()
     {
-        horizontalInput = Input.GetAxis("Horizontal");// to get the input to float
-        //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput); // to actually move the character
-        playerRb.velocity = new Vector2 (horizontalInput * speed , playerRb.velocity.y); //lemon
+        playerRb.velocity = new Vector2 (horizontalInput * speed , playerRb.velocity.y); 
     
         FlipSprite();
     }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if ((isOnGround) && (!GameManager.gameManagerScript.isPaused)) // i do not know why the 2nd condition is needed if it is checking in update
         {
             onJump?.Invoke();
 
@@ -142,7 +157,6 @@ public class PlayerController : MonoBehaviour
     {
         playerRb.velocity = new Vector2(0 ,0);
         horizontalInput = 0;
-        //playerRb.constraints = RigidbodyConstraints2D.FreezePosition;
     }
 
     public void OnPause()
@@ -162,44 +176,31 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeCameraDistance()
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        if(playerCamera.m_Lens.OrthographicSize == cameraNear)
         {
-            if(playerCamera.m_Lens.OrthographicSize == cameraNear)
-            {
-                playerCamera.m_Lens.OrthographicSize = cameraFar;
-            }
-            else
-            {
-                playerCamera.m_Lens.OrthographicSize = cameraNear;
-            }
-            
+            playerCamera.m_Lens.OrthographicSize = cameraFar;
+        }
+        else
+        {
+            playerCamera.m_Lens.OrthographicSize = cameraNear;
         }
     }
 
-    private void EscapePress()
+    private void PauseGame()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GameManager.gameManagerScript.PausedMenu != null)
         {
 
-            if (GameManager.gameManagerScript.PausedMenu != null)
+            if (!GameManager.gameManagerScript.isPaused)
             {
-
-                if (!GameManager.gameManagerScript.isPaused)
-                {
-                    GameManager.gameManagerScript.OnPause.Invoke();
-                    //StopMoving();
-                    //playerRb.Sleep();
-                    //onPause.Invoke();
-                }
-                else
-                {
-                    GameManager.gameManagerScript.OnDePause.Invoke();
-                    //playerRb.WakeUp();
-                    //onDePause.Invoke();
-                }
-
-
+                GameManager.gameManagerScript.OnPause.Invoke();
             }
+            else
+            {
+                GameManager.gameManagerScript.OnDePause.Invoke();
+            }
+
+
         }
     }
 

@@ -11,7 +11,7 @@ public class CubeUpandDown : TrapsCommonality
 
         base.Start();
 
-        isDestructible = false;
+        isDestructible = true;
         rigidBody = GetComponent<Rigidbody2D>();
 
 

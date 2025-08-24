@@ -24,23 +24,27 @@ public class Stage4Cubes : MonoBehaviour
 
     private void SpawnCubes()
     {
-        if (!GameManager.gameManagerScript.isPaused)
+        if(gameObject.activeSelf)
         {
-            for (int column = 0; column < numberOfLightning; column++)
+            if (!GameManager.gameManagerScript.isPaused)
             {
-                Vector3 lightningPosition;
-
-                if (column < numberOfLightning / 2)
+                for (int column = 0; column < numberOfLightning; column++)
                 {
-                    lightningPosition = new Vector3(transform.position.x + -(column + 1) * xSpacing, transform.position.y);
-                }
-                else
-                {
-                    lightningPosition = new Vector3(transform.position.x + (column - 1) * xSpacing, transform.position.y);
-                }
+                    Vector3 lightningPosition;
 
-                Instantiate(lightning, lightningPosition, transform.rotation);
+                    if (column < numberOfLightning / 2)
+                    {
+                        lightningPosition = new Vector3(transform.position.x + -(column + 1) * xSpacing, transform.position.y);
+                    }
+                    else
+                    {
+                        lightningPosition = new Vector3(transform.position.x + (column - 1) * xSpacing, transform.position.y);
+                    }
+
+                    Instantiate(lightning, lightningPosition, transform.rotation);
+                }
             }
         }
+        
     }
 }

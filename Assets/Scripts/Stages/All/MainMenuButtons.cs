@@ -13,6 +13,11 @@ public class MainMenuButtons : MonoBehaviour
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private Slider loadingSlider;
 
+    [SerializeField] private CanvasGroup optionGroup;
+
+    [SerializeField] private Toggle fullscreenToggle;
+    [SerializeField] private Toggle vSynchToggle;
+    [SerializeField] private TMP_Dropdown resolutionDropdown;
     private void Start()
     {
         eventSystem = GameObject.FindObjectOfType<EventSystem>();
@@ -40,7 +45,74 @@ public class MainMenuButtons : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
     }
 
+    //--------------------Options-------------------------
 
+    public void OptionButton()
+    {
+        optionGroup.alpha = 1;
+    }
+
+    public void FullScreen()
+    {
+        if(fullscreenToggle.isOn)
+        {
+            Screen.fullScreen = true;
+        }
+        else
+        {
+            Screen.fullScreen = false;
+        }
+        
+    }
+
+    public void VSynch()
+    {
+        if(vSynchToggle.isOn)
+        {
+            QualitySettings.vSyncCount = 1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
+        }
+    }
+
+    public void ScreenResolution()
+    {
+
+        int width = 0;
+        int height = 0;
+
+        switch(resolutionDropdown.value)
+        {
+            case 0:
+                width = 3840;
+                height = 2160;
+                break;
+            case 1:
+                width = 2560;
+                height = 1440;
+                break;
+            case 2:
+                width = 1920;
+                height = 1080;
+                break;
+            case 3:
+                width = 1366;
+                height = 768;
+                break;
+            case 4:
+                width = 1280;
+                height = 720;
+                break;
+            default:
+                break;
+        }
+
+        Screen.SetResolution(width, height , fullscreenToggle.isOn);
+    }
+
+    //--------------------Load Level-------------------------
     public void LoadLevel(string sceneNameToLoad)
     {
         StartCoroutine(LoadLevelAsynch(sceneNameToLoad));

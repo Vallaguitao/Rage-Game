@@ -8,7 +8,9 @@ public class MovingClouds : MonoBehaviour
     [SerializeField] private Transform pointA;
     [SerializeField] private GameObject pointB;
     [SerializeField] private float speed = 5f;
-    private bool moveIt;
+    [SerializeField] private bool moveIt;
+
+    public bool MoveIt { get { return moveIt; } set { } }
 
     // Start is called before the first frame update
     void Start()

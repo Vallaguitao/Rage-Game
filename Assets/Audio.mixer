@@ -62,7 +62,13 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: ed45f700eba852e4ba1f0bc880ac1215
+    name: Master
+  - guid: a03e7330db3089142bd62e47dadd86d6
+    name: Music
+  - guid: eba92fc4d4b828d4b83e1f3fc8e7a473
+    name: SFX
   m_AudioMixerGroupViews:
   - guids:
     - 6b800662405060f4597da88ec73e7724
@@ -116,8 +122,9 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 57ac8137e0c3b124d850bcd30e8c4520
   m_FloatValues:
-    a03e7330db3089142bd62e47dadd86d6: -4.7840595
-    eba92fc4d4b828d4b83e1f3fc8e7a473: 0.2048295
+    ed45f700eba852e4ba1f0bc880ac1215: -7.436936
+    a03e7330db3089142bd62e47dadd86d6: -23.578785
+    eba92fc4d4b828d4b83e1f3fc8e7a473: -16.440737
   m_TransitionOverrides: {}
 --- !u!243 &3637955449020221550
 AudioMixerGroupController:
@@ -138,6 +145,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &4376163828298529898
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: af322bbe87a55964eba9675a788a3218
+  m_EffectName: Receive
+  m_MixLevel: c5450317d98f48d4ab5754e1ab6f2b63
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &6524987698657421762
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

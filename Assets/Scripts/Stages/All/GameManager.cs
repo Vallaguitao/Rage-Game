@@ -86,13 +86,13 @@ public class GameManager : MonoBehaviour
             //Player Current Points
             currentPoints = 0;
             scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
-            scoreText.SetText($"{currentPoints}");
+            scoreText.SetText(string.Format("{0:N0}", currentPoints));
 
 
             //Player Live Text
             playerCurrentLives = playerStartingLives;
             playerCurrentLivesText = GameObject.Find("Lives").GetComponent<TextMeshProUGUI>();
-            playerCurrentLivesText.SetText($"X{playerCurrentLives}");
+            playerCurrentLivesText.SetText(string.Format("{0:N0}", $"X{playerCurrentLives}"));
 
             //Load Stage
             currentStageIndex = SceneManager.GetActiveScene().buildIndex;
@@ -113,13 +113,13 @@ public class GameManager : MonoBehaviour
     public void LoseALife()
     {
         playerCurrentLives--;
-        playerCurrentLivesText.SetText($"X{playerCurrentLives}");
+        playerCurrentLivesText.SetText( "X" + string.Format("{0:N0}", playerCurrentLives)); // changed the $"X{playerCurrentLives} because comma wont show
     }
 
     public void AddALife()
     {
         playerCurrentLives++;
-        playerCurrentLivesText.SetText($"X{playerCurrentLives}");
+        playerCurrentLivesText.SetText("X" + string.Format("{0:N0}", playerCurrentLives));
     }
 
     
