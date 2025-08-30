@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
 
     [SerializeField] private GameManager gameManager;
+
+    [SerializeField] private UnityEvent OnFinishLine;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +27,9 @@ public class FinishLine : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            print("Triggered");
+
             NextStage();
+            OnFinishLine?.Invoke();
         }
     }
 
@@ -36,6 +40,5 @@ public class FinishLine : MonoBehaviour
         //insert clear stage text animation here
 
         currentIndex++;
-        SceneManager.LoadScene(currentIndex);
     }
 }

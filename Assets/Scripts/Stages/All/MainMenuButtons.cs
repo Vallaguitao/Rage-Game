@@ -115,31 +115,10 @@ public class MainMenuButtons : MonoBehaviour
     //--------------------Load Level-------------------------
     public void LoadLevel(string sceneNameToLoad)
     {
-        StartCoroutine(LoadLevelAsynch(sceneNameToLoad));
+        StartCoroutine(GameManager.gameManagerScript.LoadLevelAsynch(sceneNameToLoad));
     }
 
-    IEnumerator LoadLevelAsynch(string levelToLoad)
-    {
-
-        if (loadingSlider != null)
-        {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad);
-
-            while (!loadOperation.isDone)
-            {
-                float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
-                loadingSlider.value = progressValue;
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(0.5f);
-        }
-        else
-        {
-            print("No Slider");
-        }
-
-    }
+    
 
 
     public void ExitGame()

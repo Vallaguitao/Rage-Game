@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [Header("Script References")]
     [SerializeField] private PlayerInputHandler playerInputHandlerScript;
     [SerializeField] private PlayerPowerUp playerPowerUpScript;
+
+    public PlayerInputHandler PlayerInputHandlerScript { get { return PlayerInputHandlerScript; } set { PlayerInputHandlerScript = value; } }
 
     //Movement
     [Header("Movement")]
@@ -57,7 +60,14 @@ public class PlayerController : MonoBehaviour
 
         playerRenderer = GetComponent<SpriteRenderer>();
 
-    }
+        
+        //from update
+        playerInputHandlerScript.jumpInput.performed += Jump;
+        playerInputHandlerScript.CameraChangeInput.performed += ChangeCameraDistance;
+        playerInputHandlerScript.PowerUpInput.performed += playerPowerUpScript.BarrierPowerUp;
+
+        playerInputHandlerScript.PauseInput.performed += PauseGame;
+}
 
     // Update is called once per frame
     void Update()
@@ -67,17 +77,13 @@ public class PlayerController : MonoBehaviour
 
         if (!GameManager.gameManagerScript.isPaused)
         {
-            //Jump();
-            //ChangeCameraDistance();
             
-            playerInputHandlerScript.jumpInput.performed += context => Jump();
-            playerInputHandlerScript.CameraChangeInput.performed += context => ChangeCameraDistance(); ;
-            playerInputHandlerScript.PowerUpInput.performed += context => playerPowerUpScript.BarrierPowerUp();
-
+            //Moved to update
+            
         }
 
         //PauseGame();
-        playerInputHandlerScript.PauseInput.performed += context => PauseGame();
+        //playerInputHandlerScript.PauseInput.performed += context => PauseGame();
     }
 
     private void FixedUpdate()
@@ -101,18 +107,18 @@ public class PlayerController : MonoBehaviour
         FlipSprite();
     }
 
-    void Jump()
+    void Jump(InputAction.CallbackContext context)
     {
         if ((isOnGround) && (!GameManager.gameManagerScript.isPaused)) // i do not know why the 2nd condition is needed if it is checking in update
         {
             onJump?.Invoke();
-
-            //OLD CODE
-            //playerRb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            //playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y + jumpForce);
-            //audioManager.PlaySFX(jumpSound);
-            //isOnGround = false;
         }
+    }
+
+    public void JumpAction()
+    {
+        print("Jump");
+        playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y + jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -143,10 +149,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void JumpAction()
-    {
-        playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y + jumpForce);
-    }
+    
 
     public void ChangeOnGround()
     {
@@ -174,9 +177,10 @@ public class PlayerController : MonoBehaviour
 
     #region CameraControl / Pause 
 
-    private void ChangeCameraDistance()
+    private void ChangeCameraDistance(InputAction.CallbackContext context)
     {
-        if(playerCamera.m_Lens.OrthographicSize == cameraNear)
+        print("Camera");
+        if (playerCamera.m_Lens.OrthographicSize == cameraNear)
         {
             playerCamera.m_Lens.OrthographicSize = cameraFar;
         }
@@ -186,8 +190,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void PauseGame()
+    private void PauseGame(InputAction.CallbackContext context)
     {
+        print("Paused");
         if (GameManager.gameManagerScript.PausedMenu != null)
         {
 
@@ -200,9 +205,28 @@ public class PlayerController : MonoBehaviour
                 GameManager.gameManagerScript.OnDePause.Invoke();
             }
 
-
+        }
+        else
+        {
+            print("Paused No PausedMenu");
         }
     }
 
     #endregion
+
+    public void CancelledControl()
+    {
+        //playerInputHandlerScript.PauseInput.performed -= OnPausedCanceled;
+        //playerInputHandlerScript.PauseInput.performed -= context => PauseGame();
+        //playerInputHandlerScript.PauseInput.performed -= context => PauseGame();
+        //playerInputHandlerScript.jumpInput.performed -= context => Jump();
+
+        playerInputHandlerScript.jumpInput.performed -= Jump;
+        playerInputHandlerScript.CameraChangeInput.performed -= ChangeCameraDistance;
+        playerInputHandlerScript.PowerUpInput.performed -= playerPowerUpScript.BarrierPowerUp;
+
+        playerInputHandlerScript.PauseInput.performed -=  PauseGame;
+
+    }
+    
 }

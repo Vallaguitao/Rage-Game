@@ -18,19 +18,22 @@ public class Bird : MonoBehaviour
     {
         if(transform.parent != null)
         {
-            switch(spawnBirdScript.Direction)
+            if(!GameManager.gameManagerScript.isPaused)
             {
-                case Direction.Left:
-                    transform.Translate(Vector3.left * speed * Time.deltaTime);
-                    break;
-                case Direction.Right:
-                    transform.Translate(Vector3.right * speed * Time.deltaTime);
-                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
-                    break;
-                default:
-                    break;
-
+                switch (spawnBirdScript.Direction)
+                {
+                    case Direction.Left:
+                        transform.Translate(Vector3.left * speed * Time.deltaTime);
+                        break;
+                    case Direction.Right:
+                        transform.Translate(Vector3.right * speed * Time.deltaTime);
+                        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                        break;
+                    default:
+                        break;
+                }
             }
+            
         }
         
     }

@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,6 +48,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UnityEvent onPause;
     [SerializeField] private UnityEvent onDePause;
 
+    [Header("Pause")]
+    [SerializeField] private Slider loadingSlider;
+
     public CanvasGroup PausedMenu { get { return pausedMenu; } private set { } }
     public UnityEvent OnPause { get { return onPause; } private set { } }
     public UnityEvent OnDePause { get { return onDePause; } private set { } }
@@ -54,7 +60,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         gameManagerScript = this;
-        isPaused = false;
+        InputSystem.DisableDevice(Mouse.current);
+        Cursor.visible = false;
+        // Re-enable the mouse device (if needed later)
+        //InputSystem.EnableDevice(Mouse.current);
+
+        //isPaused = false;
         //Player Information
 
         currentActiveScene = SceneManager.GetActiveScene().name;
@@ -76,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
+        isPaused = false;
         if ((currentActiveScene == "Main Menu") || (currentActiveScene == "Credits") || (currentActiveScene == "Start Menu"))
         {
             return;
@@ -172,8 +183,15 @@ public class GameManager : MonoBehaviour
     public void RestartStage()
     {
 
-        SceneManager.LoadScene(GameManager.gameManagerScript.CurrentStageIndex);
+        playerControllerScript.CancelledControl();
+        StartCoroutine(LoadLevelAsynch(currentStageIndex));
+        
+    }
 
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        playerControllerScript.CancelledControl();
+        print($"Scene Loaded: {scene}, Mode {mode}");
     }
 
     public void ExitGame()
@@ -187,5 +205,55 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    
+    public void LoadNextLevel()
+    {
+        StartCoroutine(LoadLevelAsynch(++currentStageIndex));
+    }
+
+    //the 2 IEnumerator below has the same code
+    public IEnumerator LoadLevelAsynch(string levelToLoad)
+    {
+
+        if (loadingSlider != null)
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad);
+
+            while (!loadOperation.isDone)
+            {
+                float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
+                loadingSlider.value = progressValue;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            print("No Slider");
+        }
+
+    }
+
+    public IEnumerator LoadLevelAsynch(int levelToLoadIndex)
+    {
+
+        if (loadingSlider != null)
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoadIndex);
+
+            while (!loadOperation.isDone)
+            {
+                float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
+                loadingSlider.value = progressValue;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            print("No Slider");
+        }
+
+    }
 }

@@ -109,6 +109,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Awake()
     {
+
         moveAction = playerController.FindActionMap(actionMapName).FindAction(move);
         jumpAction = playerController.FindActionMap(actionMapName).FindAction(jump);
         cameraChangeAction = playerController.FindActionMap(actionMapName).FindAction(cameraChange);
@@ -150,7 +151,7 @@ public class PlayerInputHandler : MonoBehaviour
         InputSystem.onDeviceChange += OnDeviceChange;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         moveAction.Disable();
         jumpAction.Disable();

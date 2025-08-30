@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerPowerUp : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerPowerUp : MonoBehaviour
         time = 0f;
 
         barrierDuration = 0.3f;
+        hasBarrier = false;
     }
 
     // Update is called once per frame
@@ -38,7 +40,7 @@ public class PlayerPowerUp : MonoBehaviour
         }
     }
 
-    public void BarrierPowerUp()
+    public void BarrierPowerUp(InputAction.CallbackContext context)
     {
         if (hasBarrier)
         {
@@ -51,7 +53,7 @@ public class PlayerPowerUp : MonoBehaviour
         }
         else
         {
-            //print("Does not have power up");
+            print("Does not have power up");
         }
 
         /*
