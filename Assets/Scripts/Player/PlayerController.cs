@@ -216,11 +216,6 @@ public class PlayerController : MonoBehaviour
 
     public void CancelledControl()
     {
-        //playerInputHandlerScript.PauseInput.performed -= OnPausedCanceled;
-        //playerInputHandlerScript.PauseInput.performed -= context => PauseGame();
-        //playerInputHandlerScript.PauseInput.performed -= context => PauseGame();
-        //playerInputHandlerScript.jumpInput.performed -= context => Jump();
-
         playerInputHandlerScript.jumpInput.performed -= Jump;
         playerInputHandlerScript.CameraChangeInput.performed -= ChangeCameraDistance;
         playerInputHandlerScript.PowerUpInput.performed -= playerPowerUpScript.BarrierPowerUp;

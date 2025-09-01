@@ -33,6 +33,7 @@ public class MainMenuProceed : MonoBehaviour
 
     public void InMaineMenu()
     {
+        GameManager.gameManagerScript.LoadNextLevel();
         SceneManager.LoadScene("Main Menu");
     }
 

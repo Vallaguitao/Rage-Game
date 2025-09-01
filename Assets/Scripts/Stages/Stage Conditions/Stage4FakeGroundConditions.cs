@@ -10,13 +10,11 @@ public class Stage4FakeGroundConditions : MonoBehaviour
     [SerializeField] private GameObject FakeGround3;
     [SerializeField] private GameObject movingWall;
 
-    [SerializeField] private bool isButtonPressed;
     [SerializeField] private bool isGround2Triggered;
 
     // Start is called before the first frame update
     void Start()
     {
-        isButtonPressed = false;
         FakeGround2.SetActive(false);
         movingWall.SetActive(false);
     }

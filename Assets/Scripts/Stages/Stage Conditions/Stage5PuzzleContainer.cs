@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Stage5PuzzleContainer : MonoBehaviour
 {
@@ -10,12 +12,15 @@ public class Stage5PuzzleContainer : MonoBehaviour
     [SerializeField] private int pattern;
     [SerializeField] private string patternText;
     [SerializeField] private bool isFinished;
+    [SerializeField] private bool isResetted;
+    [SerializeField] private UnityEvent on231;
+    [SerializeField] private UnityEvent onReset;
 
     [SerializeField] private GameObject firstFloor;
     [SerializeField] private GameObject secondFloor;
     [SerializeField] private GameObject secondFloorLast;
     [SerializeField] private GameObject thirdFloor;
-    [SerializeField] private GameObject traps;
+    [SerializeField] private GameObject trapsFinishLine;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +28,8 @@ public class Stage5PuzzleContainer : MonoBehaviour
 
         currentIndex = 0;
         isFinished = false;
-        traps.SetActive(false);
+        isResetted = false;
+        trapsFinishLine.SetActive(false);
     }
 
     private void Update()
@@ -60,14 +66,15 @@ public class Stage5PuzzleContainer : MonoBehaviour
                     print("Correct Way");
                     break;
                 case 231:
-                    secondFloor.SetActive(false);
+                    //secondFloor.SetActive(false);
+                    on231?.Invoke();
                     print("Stuck 2nd flr");
                     break;
                 case 321:
                     secondFloor.SetActive(false);
                     secondFloorLast.SetActive(false);
                     print("Correct Way with Traps");
-                    traps.SetActive(true);
+                    trapsFinishLine.SetActive(true);
                     break;
                 case 312:
                     secondFloor.SetActive(false);
@@ -82,7 +89,7 @@ public class Stage5PuzzleContainer : MonoBehaviour
             isFinished = true;
         }
 
-        
+        PlayerDiedStageReset();
 
     }
 
@@ -114,6 +121,36 @@ public class Stage5PuzzleContainer : MonoBehaviour
     {
         pressedButtonOrder[currentIndex] = 5;
         currentIndex++;
+    }
+
+    private void PlayerDiedStageReset()
+    {
+
+        if(!isResetted)
+        {
+            if (GameManager.gameManagerScript.isInvincibleState)
+            {
+                print("reset action");
+
+                //remove the button pressed order
+                Array.Clear(pressedButtonOrder, 0, 5);
+                currentIndex = 0;
+
+                onReset?.Invoke();
+                isResetted = true;
+            }
+        }
+        else
+        {
+            if(!GameManager.gameManagerScript.isInvincibleState)
+            {
+                isResetted = false;
+                isFinished = false;
+                patternText = string.Empty;
+                print("reset = false");
+            }
+        }
+        
     }
 
 }

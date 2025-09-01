@@ -1688,6 +1688,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1975397592}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767863140287906843, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
+      propertyPath: OnFinishLine.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2882768556310673191, guid: 3cfa1577fe2097c45b73acee6e510dcd, type: 3}
       propertyPath: m_Name
       value: Finish Line
@@ -3545,6 +3577,17 @@ MonoBehaviour:
   inputReference: {fileID: -944628639613478452, guid: 5c8282bbd5ffc3246ab5ec3bb8f55465, type: 3}
   actionReference: {fileID: -2905420619590115491, guid: 5c8282bbd5ffc3246ab5ec3bb8f55465, type: 3}
   buttonToPress: {fileID: 1583536583}
+--- !u!114 &1975397592 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3240873181929980778, guid: 14e0e6fed3929034890f5bff7f87237d, type: 3}
+  m_PrefabInstance: {fileID: 4273540886052180812}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94734c9a7d7636d4abd1018e61dd1c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1976401957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3382873922625280391, guid: a185d36487084224693cbfc355561f9a, type: 3}

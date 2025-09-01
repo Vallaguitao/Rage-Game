@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerControllerScript;
     public SpriteRenderer playerRenderer;
     public AudioManager audioManager;
+    public bool isInvincibleState;
 
     [SerializeField] private EventSystem eventSystem1;
 
@@ -69,6 +70,8 @@ public class GameManager : MonoBehaviour
         //Player Information
 
         currentActiveScene = SceneManager.GetActiveScene().name;
+
+        isInvincibleState = false;
 
         //temp (because still no persistence)
         if ((currentActiveScene == "Main Menu") || (currentActiveScene == "Credits") || (currentActiveScene == "Start Menu"))
@@ -139,7 +142,10 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = gameManagerScript.StartingPosition;
         yield return new WaitForSeconds(1f);
+        isInvincibleState = false;
         playerRenderer.enabled = true;
+
+        print("invincible = false");
     }
 
     public void PlayerDied()
@@ -148,8 +154,11 @@ public class GameManager : MonoBehaviour
         playerRenderer.enabled = false;
 
         LoseALife();
+        isInvincibleState = true;
 
-        StartCoroutine("PlayerRespawn");
+        print("Invincible = true");
+
+        StartCoroutine(PlayerRespawn());
 
         playerRenderer.enabled = true;
 
@@ -188,6 +197,7 @@ public class GameManager : MonoBehaviour
         
     }
 
+    //this is nothing
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         playerControllerScript.CancelledControl();
@@ -207,7 +217,14 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        playerControllerScript.CancelledControl();
         StartCoroutine(LoadLevelAsynch(++currentStageIndex));
+    }
+
+    public void LoadStageSelect(int stageIndex)
+    {
+        playerControllerScript.CancelledControl();
+        StartCoroutine(LoadLevelAsynch(stageIndex));
     }
 
     //the 2 IEnumerator below has the same code

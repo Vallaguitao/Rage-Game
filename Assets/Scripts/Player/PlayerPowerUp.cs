@@ -10,25 +10,14 @@ public class PlayerPowerUp : MonoBehaviour
     [SerializeField] private GameObject playerBarrier;
     [SerializeField] private bool hasBarrier;
     [SerializeField] private float barrierDuration;
-    [SerializeField] private float time;
 
     // Start is called before the first frame update
     void Start()
     {
         playerBarrier.SetActive(false);
-        time = 0f;
 
         barrierDuration = 0.3f;
         hasBarrier = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //time += Time.deltaTime;
-
-        //BarrierPowerUp();
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,7 +37,6 @@ public class PlayerPowerUp : MonoBehaviour
             hasBarrier = false;
 
             StartCoroutine(BarrierDurationEnd());
-            //time = 0;
             
         }
         else
@@ -56,12 +44,6 @@ public class PlayerPowerUp : MonoBehaviour
             print("Does not have power up");
         }
 
-        /*
-        if(time >= barrierDuration)
-        {
-            playerBarrier.SetActive(false);
-        }
-        */
     }
     
     IEnumerator BarrierDurationEnd()

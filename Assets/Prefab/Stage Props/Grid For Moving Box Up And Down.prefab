@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 2800791594754087462}
   - component: {fileID: 733498518174270952}
   - component: {fileID: 5678635700835832896}
-  - component: {fileID: 2894531603730436864}
   - component: {fileID: 7278634774478501623}
   m_Layer: 0
   m_Name: Moving Ground
@@ -409,27 +408,6 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 5123059554367254009}
---- !u!95 &2894531603730436864
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5123059554367254009}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88fed4fe5a84df84cada9b0b1d6b6366, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7278634774478501623
 MonoBehaviour:
   m_ObjectHideFlags: 0
