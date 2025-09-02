@@ -2616,6 +2616,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1943527878687152084, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_text
+      value: Press [G] to continue
+      objectReference: {fileID: 0}
     - target: {fileID: 2007000291986476957, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
       propertyPath: onPress.m_PersistentCalls.m_Calls.Array.size
       value: 2

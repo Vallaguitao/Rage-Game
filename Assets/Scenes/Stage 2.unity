@@ -5137,6 +5137,83 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3469817912397238936, guid: d15873f84a169a441abb2a385e430d48, type: 3}
   m_PrefabInstance: {fileID: 247152726}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &337126267
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1943527878687152084, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_text
+      value: Press [G] to continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 4952197119140453895, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_Name
+      value: Sign Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 5019384325168655115, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_text
+      value: Beware!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.3399463
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5349555
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359047535355573625, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603801924423149476, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
+      propertyPath: m_text
+      value: 'Yellow plus Blue makes GREEN
+
+        RED is the color of my SCREEN
+
+        The
+        WHITE box is there for you not to SCREAM
+
+        You can use your CLOCK
+        to avoid shame in your STREAM'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db49ee13fada31747b1419cc0d7570e4, type: 3}
 --- !u!1001 &346086768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31008,3 +31085,4 @@ SceneRoots:
   - {fileID: 443496274}
   - {fileID: 1219744772}
   - {fileID: 1163456139}
+  - {fileID: 337126267}
