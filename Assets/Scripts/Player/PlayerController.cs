@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerPowerUp playerPowerUpScript;
 
     public PlayerInputHandler PlayerInputHandlerScript { get { return PlayerInputHandlerScript; } set { PlayerInputHandlerScript = value; } }
+    public InputAction CancelActionController { get { return playerInputHandlerScript.cancelInput ; } set { playerInputHandlerScript.cancelInput = value; } }
 
     //Movement
     [Header("Movement")]

@@ -20,12 +20,10 @@ public class Stage2Timing : MonoBehaviour
     private void beatBig()
     {
         transform.localScale += new Vector3(1f, 1f, 1f);
-        print("big");
     }
 
     private void beatSmall()
     {
         transform.localScale = new Vector3(1f, 1f, 1f);
-        print("small");
     }
 }
