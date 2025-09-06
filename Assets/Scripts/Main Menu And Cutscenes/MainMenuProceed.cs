@@ -22,7 +22,11 @@ public class MainMenuProceed : MonoBehaviour
     {
         if(playerInputHandlerScript != null)
         {
-            playerInputHandlerScript.cancelInput.performed += context => Cancel();
+            if(playerInputHandlerScript.cancelInput.WasPerformedThisFrame())
+            {
+                Cancel();
+            }
+            //playerInputHandlerScript.cancelInput.performed += context => 
         }
         else
         {
@@ -34,7 +38,7 @@ public class MainMenuProceed : MonoBehaviour
     public void InMaineMenu()
     {
         GameManager.gameManagerScript.LoadNextLevel();
-        SceneManager.LoadScene("Main Menu");
+        //SceneManager.LoadScene("Main Menu");
     }
 
     public void Cancel()

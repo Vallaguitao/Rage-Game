@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInputHandler PlayerInputHandlerScript { get { return PlayerInputHandlerScript; } set { PlayerInputHandlerScript = value; } }
     public InputAction CancelActionController { get { return playerInputHandlerScript.cancelInput ; } set { playerInputHandlerScript.cancelInput = value; } }
+    public InputAction InteractActionController { get { return playerInputHandlerScript.InteractInput; } set { playerInputHandlerScript.InteractInput = value; } }
 
     //Movement
     [Header("Movement")]
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerRb = GetComponent<Rigidbody2D>(); // get the component
+        playerRb = GetComponent<Rigidbody2D>(); 
         Physics.gravity *= gravityModifier;
 
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>();
@@ -61,8 +62,6 @@ public class PlayerController : MonoBehaviour
 
         playerRenderer = GetComponent<SpriteRenderer>();
 
-        
-        //from update
         playerInputHandlerScript.jumpInput.performed += Jump;
         playerInputHandlerScript.CameraChangeInput.performed += ChangeCameraDistance;
         playerInputHandlerScript.PowerUpInput.performed += playerPowerUpScript.BarrierPowerUp;
@@ -70,7 +69,6 @@ public class PlayerController : MonoBehaviour
         playerInputHandlerScript.PauseInput.performed += PauseGame;
 }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -79,21 +77,16 @@ public class PlayerController : MonoBehaviour
         if (!GameManager.gameManagerScript.isPaused)
         {
             
-            //Moved to update
-            
         }
 
-        //PauseGame();
-        //playerInputHandlerScript.PauseInput.performed += context => PauseGame();
     }
 
     private void FixedUpdate()
     {
         if (!GameManager.gameManagerScript.isPaused)
         {
-            Movement();
 
-            //When space is used to press [Resume Button], player also jumps
+            Movement();
             
         }
 

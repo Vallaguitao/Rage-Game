@@ -127,14 +127,10 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void RegisterInputAction()
     {
+
         moveAction.performed += context => MoveInput = context.ReadValue<Vector2>();
         moveAction.canceled += context => MoveInput = Vector2.zero;
 
-        //attackAction.performed += context => attackInput = true;
-        //attackAction.performed += context => attackInput = false;
-
-        //jumpAction.performed += context => Jump();
-        //jumpAction.canceled += context => jumpInput = false;
 
     }
 

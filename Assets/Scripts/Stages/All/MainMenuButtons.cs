@@ -115,6 +115,7 @@ public class MainMenuButtons : MonoBehaviour
     //--------------------Load Level-------------------------
     public void LoadLevel(string sceneNameToLoad)
     {
+        GameManager.gameManagerScript.playerControllerScript.CancelledControl();
         StartCoroutine(GameManager.gameManagerScript.LoadLevelAsynch(sceneNameToLoad));
     }
 

@@ -42,6 +42,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sky
+    uniqueID: 1815836309
+    locked: 0
+  - name: Clouds
+    uniqueID: 3548410823
+    locked: 0
+  - name: MountainFarFar
+    uniqueID: 509440373
+    locked: 0
+  - name: MountainFar
+    uniqueID: 3586614711
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

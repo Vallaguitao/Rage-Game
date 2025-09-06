@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -61,11 +60,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         gameManagerScript = this;
+
         InputSystem.DisableDevice(Mouse.current);
         Cursor.visible = false;
-        // Re-enable the mouse device (if needed later)
-        //InputSystem.EnableDevice(Mouse.current);
-
+        
         //isPaused = false;
         //Player Information
 
@@ -141,28 +139,34 @@ public class GameManager : MonoBehaviour
     public IEnumerator PlayerRespawn()
     {
         player.transform.position = gameManagerScript.StartingPosition;
+
         yield return new WaitForSeconds(1f);
+
+        player.GetComponent<Animator>().SetBool("IsInvincible", false);
         isInvincibleState = false;
         playerRenderer.enabled = true;
-
-        print("invincible = false");
     }
 
     public void PlayerDied()
     {
+        if(!isInvincibleState)
+        {
+            playerRenderer.enabled = false;
 
-        playerRenderer.enabled = false;
+            LoseALife();
+            isInvincibleState = true;
+            player.GetComponent<Animator>().SetBool("IsInvincible", true);
 
-        LoseALife();
-        isInvincibleState = true;
+            StartCoroutine(PlayerRespawn());
+            
 
-        print("Invincible = true");
+            playerRenderer.enabled = true;
+        }
+        else
+        {
+            print("I am invincible, Cannot die");
+        }
 
-        StartCoroutine(PlayerRespawn());
-
-        playerRenderer.enabled = true;
-
-        //put an invinsibility period
     }
 
     #region Pause Buttons Control
