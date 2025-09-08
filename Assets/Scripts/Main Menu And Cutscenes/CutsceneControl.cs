@@ -8,12 +8,12 @@ public class CutsceneControl : MonoBehaviour
     private PlayableDirector director;
 
     public Dialogue dialogue;
-    public int[] indexToPause = new int[5];
+    //public int[] indexToPause = new int[5];
     // Start is called before the first frame update
     void Start()
     {
-        indexToPause[0] = 0;
-        indexToPause[1] = 2;
+        //indexToPause[0] = 0;
+        //indexToPause[1] = 2;
     }
 
     // Update is called once per frame
@@ -27,6 +27,13 @@ public class CutsceneControl : MonoBehaviour
             }
         }
         if (dialogue.dialogueText.text.Equals(dialogue.dialogueStorage[2]))
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartTimeline();
+            }
+        }
+        if (dialogue.dialogueText.text.Equals(dialogue.dialogueStorage[4]))
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
