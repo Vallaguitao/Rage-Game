@@ -6038,7 +6038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3163125160423414982, guid: 2e3d8f0449742a94f947e8b845b95a42, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
-      value: Tutorial Stage
+      value: Introduction Cutscene
       objectReference: {fileID: 0}
     - target: {fileID: 3163125160423414982, guid: 2e3d8f0449742a94f947e8b845b95a42, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
