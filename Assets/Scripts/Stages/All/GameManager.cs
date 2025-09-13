@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Information")]
     [SerializeField] TextMeshProUGUI playerCurrentLivesText;
-    [SerializeField] int playerStartingLives = 10;
+    [SerializeField] int playerStartingLives = 100;
     [SerializeField] int playerCurrentLives;
+
+    public int PlayerCurrentLives { get { return playerCurrentLives; } private set { } }
 
     [Header("Finish Line Information")]
     [SerializeField] int currentStageIndex; //must sort the build setting scenes
@@ -96,13 +98,24 @@ public class GameManager : MonoBehaviour
         else
         {
             //Player Current Points
-            currentPoints = 0;
+
+            if(LiveScorePersistence.liveScorePersistence != null)
+            {
+                currentPoints = LiveScorePersistence.liveScorePersistence.persistentScore;
+                playerCurrentLives = LiveScorePersistence.liveScorePersistence.persistentLives;
+            }
+            else
+            {
+                currentPoints = 0;
+                playerCurrentLives = playerStartingLives;
+            }
+
+            
             scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
             scoreText.SetText(string.Format("{0:N0}", currentPoints));
 
 
             //Player Live Text
-            playerCurrentLives = playerStartingLives;
             playerCurrentLivesText = GameObject.Find("Lives").GetComponent<TextMeshProUGUI>();
             playerCurrentLivesText.SetText(string.Format("{0:N0}", $"X{playerCurrentLives}"));
 
@@ -120,18 +133,46 @@ public class GameManager : MonoBehaviour
     {
         currentPoints += value;
         scoreText.SetText(string.Format("{0:N0}" , currentPoints));
+
+        if (LiveScorePersistence.liveScorePersistence != null)
+        {
+            LiveScorePersistence.liveScorePersistence.persistentScore = currentPoints;
+        }
+        else
+        {
+            print("No Persistence");
+        }
     }
 
     public void LoseALife()
     {
         playerCurrentLives--;
         playerCurrentLivesText.SetText( "X" + string.Format("{0:N0}", playerCurrentLives)); // changed the $"X{playerCurrentLives} because comma wont show
+
+        if (LiveScorePersistence.liveScorePersistence != null)
+        {
+            LiveScorePersistence.liveScorePersistence.persistentLives = playerCurrentLives;
+        }
+        else
+        {
+            print("No Persistence");
+        }
     }
 
     public void AddALife()
     {
         playerCurrentLives++;
         playerCurrentLivesText.SetText("X" + string.Format("{0:N0}", playerCurrentLives));
+
+        if (LiveScorePersistence.liveScorePersistence != null)
+        {
+            LiveScorePersistence.liveScorePersistence.persistentLives = playerCurrentLives;
+        }
+        else
+        {
+            print("No Persistence");
+        }
+            
     }
 
     
@@ -201,13 +242,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-    //this is nothing
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        playerControllerScript.CancelledControl();
-        print($"Scene Loaded: {scene}, Mode {mode}");
-    }
-
     public void ExitGame()
     {
         #if UNITY_EDITOR
@@ -231,7 +265,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadLevelAsynch(stageIndex));
     }
 
-    //the 2 IEnumerator below has the same code
+    //the 2 IEnumerator below has the same code only has different parameter type
     public IEnumerator LoadLevelAsynch(string levelToLoad)
     {
 
