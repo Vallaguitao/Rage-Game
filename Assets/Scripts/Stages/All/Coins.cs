@@ -34,7 +34,7 @@ public class Coins : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            gameManager.UpdateScore(150); //not 1000 anymore
+            gameManager.UpdateScore(100); //not 1000 anymore
             audioManager.PlaySFX(getSound);
             Destroy(gameObject);
         }

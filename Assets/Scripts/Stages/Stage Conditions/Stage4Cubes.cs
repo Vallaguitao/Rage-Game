@@ -10,19 +10,19 @@ public class Stage4Cubes : MonoBehaviour
     public int numberOfLightning = 4;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         InvokeRepeating("SpawnCubes", 2, 2);
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }
 
 
-    private void SpawnCubes()
+    protected virtual void SpawnCubes()
     {
         if(gameObject.activeSelf)
         {

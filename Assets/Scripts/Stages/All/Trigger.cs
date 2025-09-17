@@ -34,7 +34,7 @@ public class Trigger : MonoBehaviour
                 //if (Input.GetKeyDown(KeyCode.T))
                 if(GameManager.gameManagerScript.playerControllerScript.InteractActionController.WasPerformedThisFrame())
                 {
-                    onInteract.Invoke();
+                    onInteract?.Invoke();
                 }
             }
             
@@ -62,7 +62,7 @@ public class Trigger : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
             {
-                onTrigger.Invoke();
+                onTrigger?.Invoke();
 
             }
         }
@@ -73,7 +73,7 @@ public class Trigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            onLeaveTrigger.Invoke();
+            onLeaveTrigger?.Invoke();
             inRange = false;
         }
 

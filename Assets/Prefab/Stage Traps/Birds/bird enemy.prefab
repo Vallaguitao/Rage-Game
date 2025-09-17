@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1468417076511488841}
   m_Layer: 0
   m_Name: bird enemy
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,8 +167,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   spawnBirdScript: {fileID: 0}
-  player: {fileID: 0}
   gameManagerScript: {fileID: 0}
-  audioManager: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 8b23b175a78d6b5458322e3a6c9905d0, type: 3}
-  startingPosition: {x: 0, y: 0, z: 0}

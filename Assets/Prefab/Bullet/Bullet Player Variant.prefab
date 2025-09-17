@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4240818916163546157
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3575715433461753301, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_Color.b
+      value: 0.16043432
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575715433461753301, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3427257
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575715433461753301, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7660377
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.1785848
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6747421
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016983544879670350, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232614987501490195, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_Name
+      value: Bullet Player Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232614987501490195, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      propertyPath: m_TagString
+      value: BarrierPowerUp
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 317637154275066906, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8232614987501490195, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5115034135093250483}
+  m_SourcePrefab: {fileID: 100100000, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+--- !u!1 &5231623537650449470 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8232614987501490195, guid: f305f5f504c1b964fa7c41e76547df89, type: 3}
+  m_PrefabInstance: {fileID: 4240818916163546157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-5115034135093250483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5231623537650449470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb854e141fa7a342a5bd2545a92fdde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 18

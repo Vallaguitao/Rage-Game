@@ -19,6 +19,7 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string pause = "Pause";
     [SerializeField] private string powerUp = "PowerUp";
     [SerializeField] private string cancel = "Cancel";
+    [SerializeField] private string shoot = "Shoot";
 
     [Header("Deadzone Values")]
     [SerializeField] private float leftStickDeadzoneValue;
@@ -30,6 +31,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction pauseAction;
     private InputAction powerUpAction;
     private InputAction cancelAction;
+    private InputAction shootAction;
 
     public Vector2 MoveInput { get; private set; }
 
@@ -107,6 +109,18 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public InputAction shootInput
+    {
+        get
+        {
+            return shootAction;
+        }
+        set
+        {
+            shootAction = value;
+        }
+    }
+
     private void Awake()
     {
 
@@ -117,6 +131,7 @@ public class PlayerInputHandler : MonoBehaviour
         pauseAction = playerController.FindActionMap(actionMapName).FindAction(pause);
         powerUpAction = playerController.FindActionMap(actionMapName).FindAction(powerUp);
         cancelAction = playerController.FindActionMap(actionMapName).FindAction(cancel);
+        shootAction = playerController.FindActionMap(actionMapName).FindAction(shoot);
 
         RegisterInputAction();
 
@@ -143,6 +158,7 @@ public class PlayerInputHandler : MonoBehaviour
         pauseAction.Enable();
         powerUpAction.Enable();
         cancelAction.Enable();
+        shootAction.Enable();
 
         InputSystem.onDeviceChange += OnDeviceChange;
     }
@@ -156,6 +172,7 @@ public class PlayerInputHandler : MonoBehaviour
         pauseAction.Disable();
         powerUpAction.Disable();
         cancelAction.Disable();
+        shootAction.Disable();
 
         InputSystem.onDeviceChange -= OnDeviceChange;
     }

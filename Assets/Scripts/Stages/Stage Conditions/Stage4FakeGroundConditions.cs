@@ -28,9 +28,10 @@ public class Stage4FakeGroundConditions : MonoBehaviour
             {
                 movingWall.transform.position += Vector3.right * 5f * Time.deltaTime;
 
-                if (movingWall.transform.position.x > 75f)
+                if (movingWall.transform.position.x > 80f)
                 {
-                    movingWall.transform.position = new Vector3(30f, movingWall.transform.position.y, 0);
+                    Destroy(movingWall);
+                    //movingWall.transform.position = new Vector3(30f, movingWall.transform.position.y, 0);
                 }
             }
         }

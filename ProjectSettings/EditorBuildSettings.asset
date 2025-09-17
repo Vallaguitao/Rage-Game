@@ -36,11 +36,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage 5.unity
     guid: ec1fa80e96c753a4d9dada795fdc4c9d
   - enabled: 1
+    path: Assets/Scenes/Stage 5.5 (Cutscene).unity
+    guid: 3466b2497d0617e43924114dbaf4acc7
+  - enabled: 1
     path: Assets/Scenes/Stage 6.unity
     guid: 6d855929e3c7d2642b35627a929d211a
   - enabled: 1
+    path: Assets/Scenes/Stage 6.5 (Cutscene).unity
+    guid: 96867fd2c0c1e9d4caa768fc870fd963
+  - enabled: 1
     path: Assets/Scenes/Stage 7  Boss.unity
     guid: e571517c94a3e7342a5330571271341d
+  - enabled: 1
+    path: Assets/Scenes/Stage 7.5 (Cutscene).unity
+    guid: f9a63d41da744a249a168ba1bb0f1b0c
   - enabled: 1
     path: Assets/Scenes/Ending Scene.unity
     guid: 989bc0806c3d31a468a286425c2ddd18

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class Dialogue : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Dialogue : MonoBehaviour
     [SerializeField] private float textSpeed;
 
     public CutsceneControl cutsceneControl;
+    public UnityEvent OnDialogueFinish;
 
     // Start is called before the first frame update
     void Start()
@@ -27,14 +29,12 @@ public class Dialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(GameManager.gameManagerScript.playerControllerScript.InteractActionController.WasPressedThisFrame())
         {
             if (dialogueText.text.Equals(dialogueStorage[dialogueIndex]))
             {
-                if (gameObject.activeSelf) //testing
-                {
-                    NextDialogue();
-                }
+
+                NextDialogue();
                 
             }
             else
@@ -55,6 +55,7 @@ public class Dialogue : MonoBehaviour
         }
         else
         {
+            OnDialogueFinish?.Invoke();
             gameObject.SetActive(false);
         }
     }

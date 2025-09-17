@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum BossState
 {
@@ -29,6 +30,7 @@ public class Stage1Boss : MonoBehaviour
 {
     [Header("Boss Enums")]
     [SerializeField] private BossState state;
+    [SerializeField] private BossState statePrevious;
     [SerializeField] private AttackPattern attackPattern;
     [SerializeField] private DirectionFacing directionFacing;
 
@@ -40,6 +42,12 @@ public class Stage1Boss : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float stateInterval;
     [SerializeField] private bool checker;
+    [SerializeField] private bool toStart = false;
+    [SerializeField] private bool toPause = false;
+    [SerializeField] private int bossLives = 5;
+    [SerializeField] private Slider bossLivesSlider;
+    [SerializeField] private GameObject blackScreen;
+    public bool ToStart { get { return toStart; } set { toStart = value; } }
 
     [Header("Barrier")]
     [SerializeField] private GameObject barrier;
@@ -95,94 +103,76 @@ public class Stage1Boss : MonoBehaviour
         grenadeRigid = grenade.GetComponent<Rigidbody2D>();
 
         checker = false;
+        bossLivesSlider.maxValue = bossLives;
+        bossLivesSlider.value = bossLives;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        playerDistance = transform.InverseTransformPoint(GameManager.gameManagerScript.player.transform.position).x;
-        //activatingBarrier(barrierRNG(0, 2));
-
-        if (state == BossState.Attack)
+        if(toStart && !toPause)
         {
-            switch(attackPattern)
+            playerDistance = transform.InverseTransformPoint(GameManager.gameManagerScript.player.transform.position).x;
+
+            //activatingBarrier(barrierRNG(0, 2));
+
+            if (state == BossState.Attack)
             {
-                case AttackPattern.Attack1: //teleport then shoot
+                switch (attackPattern)
+                {
+                    case AttackPattern.Attack1: //teleport then shoot
 
-                    AttackPattern1();
-                    break;
+                        AttackPattern1();
+                        break;
 
-                case AttackPattern.Attack2: //summon van
+                    case AttackPattern.Attack2: //summon van
 
-                    AttackPattern2();
-                    break;
+                        AttackPattern2();
+                        break;
 
-                case AttackPattern.Attack3: //boss jump then fire gun
+                    case AttackPattern.Attack3: //boss jump then fire gun
 
-                    AttackPattern3();
-                    break;
+                        AttackPattern3();
+                        break;
 
-                case AttackPattern.Attack4: //summon meteors
+                    case AttackPattern.Attack4: //summon meteors
 
-                    AttackPattern4();
-                    break;
+                        AttackPattern4();
+                        break;
 
-                case AttackPattern.Attack5:
-                    
-                    AttackPattern5();
-                    break;
+                    case AttackPattern.Attack5: //no more attack 5
 
-                default:
-                    break;
+                        AttackPattern1();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else if (state == BossState.Move)
+            {
+                Move();
+            }
+            else
+            {
+                Idle();
+            }
+
+            if (activateBarrier)
+            {
+                barrier.SetActive(true);
+            }
+            else
+            {
+                barrier.SetActive(false);
             }
         }
-        else if(state == BossState.Move)
-        {
-            Move();
-        }
         else
         {
-            Idle();
+            return;
         }
 
-
-        if(activateBarrier)
-        {
-            barrier.SetActive(true);
-        }
-        else
-        {
-            barrier.SetActive(false);
-        }
-    }
-
-    private bool barrierRNG(int minimum, int maximum)
-    {
-        int randomNumber = Random.Range(minimum, maximum);
-
-        if(randomNumber == 0)
-        {
-            activateBarrier = false;
-        }
-        else
-        {
-            activateBarrier = true;    
-        }
-
-        return activateBarrier;
-    }
-
-    private void activatingBarrier(bool lucky)
-    {
-        if(lucky)
-        {
-            barrier.SetActive(true);
-        }
-        else
-        {
-            barrier.SetActive(false);
-        }
     }
 
     #region Move and Idle
@@ -216,9 +206,11 @@ public class Stage1Boss : MonoBehaviour
 
     IEnumerator MoveInterval()
     {
-
+        
         yield return new WaitForSeconds(stateInterval);
-        checker = false;    
+        checker = false;
+
+        statePrevious = BossState.Move;
         state = BossState.Idle;
     
     }
@@ -246,17 +238,35 @@ public class Stage1Boss : MonoBehaviour
 
         yield return new WaitForSeconds(stateInterval);
 
-        attackPattern = (AttackPattern)Random.Range(0, System.Enum.GetValues(typeof(AttackPattern)).Length);
+        //to avoid changing the attackPattern when the boss just move and idle
+        if (statePrevious == BossState.Move)
+        {
+            //do nothing
+        }
+        else
+        {
+            attackPattern = (AttackPattern)Random.Range(0, System.Enum.GetValues(typeof(AttackPattern)).Length);
+        }
+        
 
-        print("STOPPPPPPPPPPPPPPPPPPPPPPP");
+        
+        print("Idle Interval");
         ChangeState();
-
 
         while (state == BossState.Idle)
         {
             ChangeState();
         }
 
+        if((statePrevious == BossState.Move) && (state == BossState.Move))
+        {
+            print("Double Move");
+            state = BossState.Attack;
+        }
+
+        statePrevious = BossState.Idle;
+
+        yield return new WaitForSeconds(stateInterval);
     }
 
     private void ChangeState()
@@ -266,7 +276,7 @@ public class Stage1Boss : MonoBehaviour
 
     #endregion
 
-    #region Attack Patterns
+    #region Attack Patterns 
     private void AttackPattern1()
     {
         //directionFacing = (DirectionFacing)Random.Range(0, System.Enum.GetValues(typeof(DirectionFacing)).Length);
@@ -318,7 +328,9 @@ public class Stage1Boss : MonoBehaviour
 
     private void AttackPattern2()
     {
-        RandomDirectionFacing();
+        //RandomDirectionFacing();
+
+        directionFacing = (playerDistance < 0) ? DirectionFacing.Left : DirectionFacing.Right;
 
         transform.position = new Vector2(transform.position.x, transform.position.y + vanHeight + 0.10f);
         van.transform.position = new Vector2(transform.position.x, transform.position.y - vanHeight - 0.10f);
@@ -360,20 +372,25 @@ public class Stage1Boss : MonoBehaviour
 
 
         //rotate boss
-
         float rotationForce = (playerDistance < 0) ? 180f : -180f;
 
         transform.Rotate(0, 0, rotationForce * rotationSpeed * Time.deltaTime);
 
         //instantiate bullet
 
-
         timeShots += Time.deltaTime;
 
         if(timeShots > 0.025f)
         {
             
-            Instantiate(bulletObject, transform.position, transform.rotation);
+            var newBullet = Instantiate(bulletObject, transform.position, bulletObject.transform.rotation);
+            
+            if(playerDistance > 0)
+            {
+                newBullet.transform.Rotate(0, 0, 180f);
+                print("new bullet if");
+            }
+            
             timeShots = 0;
 
         }
@@ -433,7 +450,11 @@ public class Stage1Boss : MonoBehaviour
 
     private void AttackPattern5()
     {
+        //wait for seconds
+        StartCoroutine(GrenadeDisappear());
 
+        //disappear
+        state = BossState.Idle;
     }
 
     #endregion
@@ -463,8 +484,37 @@ public class Stage1Boss : MonoBehaviour
         {
             GameManager.gameManagerScript.PlayerDied();
         }
+        else if(collision.gameObject.CompareTag("BarrierPowerUp"))
+        {
+            collision.gameObject.SetActive(false);
+        }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("BarrierPowerUp"))
+        {
+            if(toStart)
+            {
+                bossLives -= 1;
+                bossLivesSlider.value = bossLives;
+            }
+
+            if(bossLives < 1)
+            {
+                blackScreen.gameObject.SetActive(true);
+                blackScreen.GetComponent<Animator>().SetBool("IsFinish", true);
+                Destroy(gameObject);
+            }
+
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    public void bossPause()
+    {
+        toPause = !toPause;
+    }
 }
 
 

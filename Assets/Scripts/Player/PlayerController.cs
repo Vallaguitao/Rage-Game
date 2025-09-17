@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+
+    #region variables
 
     [Header("Script References")]
     [SerializeField] private PlayerInputHandler playerInputHandlerScript;
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRb;
     [SerializeField] private SpriteRenderer playerRenderer;
 
+    public SpriteRenderer PlayerRenderer { get {  return playerRenderer; } private set { } }
+
     //camera control
     [Header("Camera Control")]
     [SerializeField] private CinemachineVirtualCamera playerCamera;
@@ -50,7 +55,14 @@ public class PlayerController : MonoBehaviour
 
     //[SerializeField] private EventSystem eventSystem1;
 
+    [Header("Bullet Properties")]
+    [SerializeField] private int ammo;
+    [SerializeField] private GameObject ammoObject;
+    [SerializeField] private TextMeshProUGUI ammoCountText;
+
     public float HorizontalInput { get { return horizontalInput; } private set {  } }
+
+    #endregion
 
     private void Start()
     {
@@ -65,8 +77,19 @@ public class PlayerController : MonoBehaviour
         playerInputHandlerScript.jumpInput.performed += Jump;
         playerInputHandlerScript.CameraChangeInput.performed += ChangeCameraDistance;
         playerInputHandlerScript.PowerUpInput.performed += playerPowerUpScript.BarrierPowerUp;
+        playerInputHandlerScript.shootInput.performed += Shoot;
 
+        //the code is a mess
         playerInputHandlerScript.PauseInput.performed += PauseGame;
+
+        string currentSceneCheck = SceneManager.GetActiveScene().name;
+
+        if (currentSceneCheck.Equals("Main Menu") || currentSceneCheck.Equals("Start Menu"))
+        {
+            playerInputHandlerScript.PauseInput.performed -= PauseGame;
+        }
+
+        ammo = 0;
 }
 
     void Update()
@@ -121,6 +144,20 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
         }
+        else if(collision.gameObject.CompareTag("BulletShell"))
+        {
+            ammo += 1;
+            Destroy(collision.gameObject);
+
+            if(ammoCountText != null)
+            {
+                ammoCountText.SetText($"X{ammo}");
+            }
+            else
+            {
+                print("No Ammo Text");
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -154,6 +191,35 @@ public class PlayerController : MonoBehaviour
     {
         playerRb.velocity = new Vector2(0 ,0);
         horizontalInput = 0;
+    }
+
+    private void Shoot(InputAction.CallbackContext context)
+    {
+        if(ammo > 0)
+        {
+
+            float offset = (playerRenderer.flipX == true) ? -1 : 1;
+
+            Vector2 positionOffset = new Vector2(transform.position.x + offset, transform.position.y);
+
+            var spawnedBullet = Instantiate(ammoObject, positionOffset, ammoObject.transform.rotation);
+
+            if (offset > 0)
+            {
+                spawnedBullet.transform.Rotate(0, 0, 180f);
+            }
+
+            ammo--;
+            
+            if(ammoCountText != null)
+            {
+                ammoCountText.SetText($"X{ammo}");
+            }
+            else
+            {
+                print("No Ammo Text");
+            }
+        }
     }
 
     public void OnPause()
@@ -192,11 +258,11 @@ public class PlayerController : MonoBehaviour
 
             if (!GameManager.gameManagerScript.isPaused)
             {
-                GameManager.gameManagerScript.OnPause.Invoke();
+                GameManager.gameManagerScript.OnPause?.Invoke();
             }
             else
             {
-                GameManager.gameManagerScript.OnDePause.Invoke();
+                GameManager.gameManagerScript.OnDePause?.Invoke();
             }
 
         }
@@ -213,9 +279,22 @@ public class PlayerController : MonoBehaviour
         playerInputHandlerScript.jumpInput.performed -= Jump;
         playerInputHandlerScript.CameraChangeInput.performed -= ChangeCameraDistance;
         playerInputHandlerScript.PowerUpInput.performed -= playerPowerUpScript.BarrierPowerUp;
+        playerInputHandlerScript.shootInput.performed -= Shoot;
 
         playerInputHandlerScript.PauseInput.performed -=  PauseGame;
 
     }
-    
+
+    //I know there is a better way but I don't know
+    public void TimelinePlayingDisablePause()
+    {
+        playerInputHandlerScript.PauseInput.performed -= PauseGame;
+
+    }
+
+    public void TimelineDonePlayingEnablePause()
+    {
+        playerInputHandlerScript.PauseInput.performed += PauseGame;
+
+    }
 }

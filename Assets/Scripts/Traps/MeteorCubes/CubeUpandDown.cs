@@ -36,6 +36,10 @@ public class CubeUpandDown : TrapsCommonality
             base.TrapsPlayerDied();
         }
         //else if (collision.gameObject.CompareTag("Ground"))
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            //do nothing
+        }
         else
         {
             Destroy(gameObject);

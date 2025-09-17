@@ -1417,38 +1417,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5937339687524196173, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5937339687524196173, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5937339687524196173, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5937339687524196173, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7130555216818217985, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7130555216818217985, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7130555216818217985, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7130555216818217985, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7359585798871895876, guid: e71d2e2796f16b545aae591442920fb4, type: 3}
       propertyPath: m_Name
       value: Loading Canvas

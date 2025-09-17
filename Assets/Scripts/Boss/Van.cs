@@ -26,15 +26,27 @@ public class Van : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.activeSelf)
+        if(!GameManager.gameManagerScript.isPaused)
         {
-            vanRigid.velocity = new Vector2(speed, vanRigid.velocity.y);
-        }
+            if (gameObject.activeSelf)
+            {
+                vanRigid.velocity = new Vector2(speed, vanRigid.velocity.y);
+            }
 
-        if(!vanRenderer.isVisible)
-        {
-            gameObject.SetActive(false);
+            /*
+            if (!vanRenderer.isVisible)
+            {
+                gameObject.SetActive(false);
+            }
+            */
         }
+        else
+        {
+            vanRigid.velocity = Vector2.zero;
+        }
+        
+
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,6 +54,14 @@ public class Van : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             GameManager.gameManagerScript.PlayerDied();
+            gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.CompareTag("BarrierPowerUp"))
+        {
+            collision.gameObject.SetActive(false);
+        }
+        else if(collision.gameObject.CompareTag("Finish")) //the invincible wall
+        {
             gameObject.SetActive(false);
         }
     }

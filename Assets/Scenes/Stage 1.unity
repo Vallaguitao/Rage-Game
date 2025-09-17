@@ -151,7 +151,7 @@ PlayableDirector:
   m_GameObject: {fileID: 17680390}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 701643e7107a9994c88e77761a5a9084, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 2
@@ -179,6 +179,28 @@ PlayableDirector:
     value: {fileID: 1591849165}
   - key: {fileID: 5634933962343079597, guid: 701643e7107a9994c88e77761a5a9084, type: 2}
     value: {fileID: 1012418680}
+  - key: {fileID: 8310694957743884518, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 1591849165}
+  - key: {fileID: -3765719133861908248, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 631230569}
+  - key: {fileID: -8694695684981571938, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 631230573}
+  - key: {fileID: 1975463908563833282, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 872471897}
+  - key: {fileID: 5052482407082600529, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 872471901}
+  - key: {fileID: 867163302253704429, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 1005901157}
+  - key: {fileID: 2011273288885571001, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 2047195363}
+  - key: {fileID: 7310868721425532338, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 1005901161}
+  - key: {fileID: 7408710789178360174, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 2047195367}
+  - key: {fileID: 1200136479828831054, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 1012418680}
+  - key: {fileID: 6886651283926940987, guid: ab514d975d202ca4a9168b5328b09dee, type: 2}
+    value: {fileID: 17680393}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &17680392
@@ -212,6 +234,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 6b8860143e233414eb280cdd57c07e14, type: 2}
     - {fileID: 11400000, guid: 4f7cb260557760d48b8457bcd3562255, type: 2}
+    - {fileID: 11400000, guid: 91090c796423d7f4e8460b0d4ed4c119, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -227,11 +250,49 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 7023573743709298265}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: TimelinePlayingDisablePause
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 17680394}
           m_TargetAssemblyTypeName: TimelineControls, Assembly-CSharp
           m_MethodName: unPauseTime
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 7023573743709298265}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: TimelineDonePlayingEnablePause
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7023573743709298265}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: TimelinePlayingDisablePause
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -69806,6 +69867,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2382f22498c4d834ba2b240e1a9888bf, type: 3}
+--- !u!114 &7023573743709298265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6060155802847888530, guid: 2382f22498c4d834ba2b240e1a9888bf, type: 3}
+  m_PrefabInstance: {fileID: 7023573743709298264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f21f20b534be10a4aa530f6181710954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7609680662481370632
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -142,6 +142,11 @@ public class GameManager : MonoBehaviour
         {
             print("No Persistence");
         }
+        print($"Current Point % 1000 = {currentPoints % 1000}");
+        if(currentPoints % 1000 == 0)
+        {
+            AddALife();
+        }
     }
 
     public void LoseALife()

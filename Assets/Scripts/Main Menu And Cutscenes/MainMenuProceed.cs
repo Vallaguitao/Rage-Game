@@ -43,7 +43,7 @@ public class MainMenuProceed : MonoBehaviour
 
     public void Cancel()
     {
-        onPress.Invoke();
+        onPress?.Invoke();
     }
 
 }
